@@ -2,6 +2,9 @@ import React from 'react';
 import { GlobalStyle } from './style';
 import { IconStyle } from './assets/iconfont/iconfont';
 import { renderRoutes } from 'react-router-config';
+import { Provider } from "react-redux";
+import store from './store/index'
+
 import routes from './routes'
 import {
   BrowserRouter as Router,
@@ -9,11 +12,13 @@ import {
 
 function App() {
   return (
-    <Router>
-      <GlobalStyle></GlobalStyle>
-      <IconStyle></IconStyle>
-      {renderRoutes(routes)}
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <GlobalStyle></GlobalStyle>
+        <IconStyle></IconStyle>
+        {renderRoutes(routes)}
+      </Router>
+    </Provider>
   );
 }
 

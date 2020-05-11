@@ -18,7 +18,7 @@ function Home(props) {
   return (
     <div>
       <Top>
-        <span className="iconfont menu">&#xe65c</span>
+        <span className="iconfont menu">menu</span>
         {/* deal the fonts later tgt */}
         <span className="title">{t('title')}</span>
         <span className="iconfont search">   &#xe637;
@@ -31,8 +31,8 @@ function Home(props) {
         <NavLink to="/rank" activeClassName="selected"><TabItem><span>{t('3')}</span></TabItem></NavLink>
       </Tab>
 
-      <button onClick={() => changeLanguage('zh')}>zh</button>
-      <button onClick={() => changeLanguage('en')}>en</button>
+      {/* <button onClick={() => changeLanguage('zh')}>zh</button>
+      <button onClick={() => changeLanguage('en')}>en</button> */}
 
       {/* <div>{t('description.part1')}</div>  its not working = =! */}
 
