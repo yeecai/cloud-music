@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.js": "/cloud-music/static/js/main.ea40c907.chunk.js",
-    "main.js.map": "/cloud-music/static/js/main.ea40c907.chunk.js.map",
+    "main.js": "/cloud-music/static/js/main.b887b9d9.chunk.js",
+    "main.js.map": "/cloud-music/static/js/main.b887b9d9.chunk.js.map",
     "runtime-main.js": "/cloud-music/static/js/runtime-main.71420d50.js",
     "runtime-main.js.map": "/cloud-music/static/js/runtime-main.71420d50.js.map",
     "static/css/2.508070a3.chunk.css": "/cloud-music/static/css/2.508070a3.chunk.css",
-    "static/js/2.67b37ef5.chunk.js": "/cloud-music/static/js/2.67b37ef5.chunk.js",
-    "static/js/2.67b37ef5.chunk.js.map": "/cloud-music/static/js/2.67b37ef5.chunk.js.map",
+    "static/js/2.f4232fa3.chunk.js": "/cloud-music/static/js/2.f4232fa3.chunk.js",
+    "static/js/2.f4232fa3.chunk.js.map": "/cloud-music/static/js/2.f4232fa3.chunk.js.map",
     "index.html": "/cloud-music/index.html",
-    "precache-manifest.f6ba4cd42db42a182015973071a1d45d.js": "/cloud-music/precache-manifest.f6ba4cd42db42a182015973071a1d45d.js",
+    "precache-manifest.9f940cfce6efb021947c92b699bffcbc.js": "/cloud-music/precache-manifest.9f940cfce6efb021947c92b699bffcbc.js",
     "service-worker.js": "/cloud-music/service-worker.js",
     "static/css/2.508070a3.chunk.css.map": "/cloud-music/static/css/2.508070a3.chunk.css.map",
-    "static/js/2.67b37ef5.chunk.js.LICENSE.txt": "/cloud-music/static/js/2.67b37ef5.chunk.js.LICENSE.txt"
+    "static/js/2.f4232fa3.chunk.js.LICENSE.txt": "/cloud-music/static/js/2.f4232fa3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.71420d50.js",
     "static/css/2.508070a3.chunk.css",
-    "static/js/2.67b37ef5.chunk.js",
-    "static/js/main.ea40c907.chunk.js"
+    "static/js/2.f4232fa3.chunk.js",
+    "static/js/main.b887b9d9.chunk.js"
   ]
 }
