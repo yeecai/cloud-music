@@ -9,15 +9,21 @@ function Slider(props) {
 
     useEffect(() => {
         if (bannerList.lengh && !sliderSwiper) {
-            let newSliderSwiper = new Swiper(".slider-container", {
-                loop: true,
+            let sliderSwiper = new Swiper(".slider-container", {
+                initialSlide: 3,
                 autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
+                    delay: 5000,
                 },
-                pagination: { el: '.swiper-pagination' },
-            })
-            setSliderSwiper(newSliderSwiper)
+                // loop: true,
+                // autoplay: true,
+                // delay: 3000,
+                disableOnInteraction: false,
+                pagination: {
+                    el: '.swiper-pagination',
+                    type: 'bullets',
+                },
+            });
+            setSliderSwiper(sliderSwiper)
         }
     }, [bannerList.lengh, sliderSwiper]);
 
@@ -27,11 +33,11 @@ function Slider(props) {
             <div className="slider-container">
                 <div className="swiper-wrapper">
                     {
-                        bannerList.map(slider => {
+                        bannerList.map((slider, index) => {
                             return (
-                                <div className="swiper-slide" key={slider.id}>
+                                <div className="swiper-slide" key={slider.picUrl}>
                                     <div className="slider-nav">
-                                        <img src={slider.imgUrl} width="100%" height="100%" alt="recommend" />
+                                        <img src={slider.picUrl} width="100%" height="100%" alt="recommend" />
                                     </div>
                                 </div>
                             )
@@ -41,7 +47,7 @@ function Slider(props) {
                 <div className="swiper-pagination"></div>
             </div>
         </SliderContainer>
-    )
+    );
 }
 
 export default React.memo(Slider);

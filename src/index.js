@@ -13,13 +13,13 @@ const Loader = () => (
 );
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Suspense fallback={<Loader />}>
-      {/* <I18nextProvider i18n={i18n} > */}
-        <App />
-      {/* </I18nextProvider> */}
-    </Suspense>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Suspense fallback={<Loader />}>
+    {/* <I18nextProvider i18n={i18n} > */}
+    <App />
+    {/* </I18nextProvider> */}
+  </Suspense>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

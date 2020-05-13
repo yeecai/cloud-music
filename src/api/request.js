@@ -4,6 +4,6 @@ export const getBannerRequest = () => {
     return axiosInstance.get('/banner')
 }
 
-export const getRecommendList = () => {
-    return axiosInstance.get('/recommend')
+export const getRecommendListRequest = () => {
+    return axiosInstance.get('/personalized')
 }

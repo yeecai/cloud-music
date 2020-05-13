@@ -30,6 +30,7 @@ export const ListItem = styled.div`
             height: 35px;
             border-radius: 3px;
             background: linear-gradient(hsla (0, 0%, 43%, .4), hsla(0, 0%, 100%, 0));
+            z-index:1
         }
     
         position: relative;
@@ -46,7 +47,7 @@ export const ListItem = styled.div`
                 vertical-align: top;
             }
         }
-        .img {
+        img {
             position: absolute;
             width: 100%;
             height: 100%;
