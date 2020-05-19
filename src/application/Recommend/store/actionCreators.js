@@ -21,11 +21,17 @@ export const getBannerList = () => {
         })
     }
 }
+export const changeIfLoading = (data) => ({
+    type: actionTypes.CHANGE_IF_LOADING,
+    data: fromJS(data)
+})
 
 export const getRecommendList = () => {
     return (dispatch) => {
         getRecommendListRequest().then(data => {
             dispatch(changeRecommendList(data.result));
-        }).catch(() => {console.log("recommend list data error");})
+            dispatch(changeIfLoading(false))
+        }).catch(() => { console.log("recommend list data error"); })
     }
 }
+

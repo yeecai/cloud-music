@@ -12,7 +12,7 @@ const ScrollContainer = styled.div`
 const Scroll = forwardRef((props, ref) => {
     const scrollContaninerRef = useRef();
 
-    const { direction, click, refresh, pullUpLoading, pullDownLoading, bounceTop, bounceBottom } = props;
+    const { direction, click, refresh, bounceTop, bounceBottom } = props;
     const { pullUp, pullDown, onScroll } = props;
 
     const [bScroll, setBScroll] = useState();
@@ -21,7 +21,7 @@ const Scroll = forwardRef((props, ref) => {
         const scroll = new BScroll(scrollContaninerRef.current, {
             scrollX: direction === 'horizontal',
             scrollY: direction === 'vertical',
-            propType: 3,
+            propeType: 3,
             click: click,
             bounce: {
                 top: bounceTop,
@@ -40,8 +40,8 @@ const Scroll = forwardRef((props, ref) => {
         if (!bScroll || !onScroll) return;
         bScroll.on('scroll', (scroll) => {
             onScroll(scroll);
+            // alert('on')
         })
-
         return () => {
             bScroll.off('scroll')
         }
@@ -113,7 +113,7 @@ Scroll.defaultProps = {
 };
 
 Scroll.propTypes = {
-    direction: PropTypes.oneOf(['vertical', 'horizental']),// 滚动的方向
+    direction: PropTypes.oneOf(['vertical', 'horizontal']),// 滚动的方向
     click: PropTypes.bool,
     refresh: PropTypes.bool,// 是否刷新
     onScroll: PropTypes.func,// 滑动触发的回调函数
