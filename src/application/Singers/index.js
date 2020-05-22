@@ -3,6 +3,9 @@ import Horizon from '../../baseUI/horizon-item'
 import { categoryTypes, alphaTypes } from '../../api/config'
 import { NavContainer, List, ListItem, ListContainer } from './style'
 import Scroll from '../../baseUI/scroll';
+import Loading from '../../baseUI/loading'
+import LazyLoad, { forceCheck } from 'react-lazyload'
+
 import {
   getSingerList,
   getTopSingerList,
@@ -30,6 +33,14 @@ function Singers(props) {
     updateDispatch(val, alpha)
   }
 
+  const handlePullUp = () => {
+    pullUpRefreshDispatch(category, alpha, category === '', pageCount)
+  }
+
+  const handlePullDown = () => {
+    pullDownRefreshDispatch(category, alpha)
+  }
+
   const { getTopSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
   const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
 
@@ -52,7 +63,9 @@ function Singers(props) {
             return (
               <ListItem key={item.accountId + '' + index}>
                 <div className='img_wrapper'>
-                  <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
+                  <LazyLoad placeholder={<img width="100%" height="100%" src={require('./singer.png')} alt="singer"/>}>
+                    <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
+                  </LazyLoad>
                 </div>
                 {item.name}
               </ListItem>
@@ -78,9 +91,16 @@ function Singers(props) {
         ></Horizon>
       </NavContainer>
       <ListContainer>
-        <Scroll>
+        <Scroll
+          pullUp={handlePullUp}
+          pullDown={handlePullDown}
+          pullupLoading={pullUpLoading}
+          pullDownLoading={pullDownLoading}
+          onScroll={forceCheck}
+        >
           {renderSingerList()}
         </Scroll>
+        <Loading show={enterLoading}></Loading>
       </ListContainer>
     </div>
   )

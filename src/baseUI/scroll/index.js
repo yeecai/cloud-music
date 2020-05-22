@@ -1,7 +1,11 @@
-import React, { useEffect, useRef, useImperativeHandle, forwardRef, useState } from 'react'
+import React, { useEffect, useRef, useImperativeHandle, forwardRef, useState, useMemo } from 'react'
 import BScroll from "better-scroll"
 import PropTypes from "prop-types"
-import styled from 'styled-components';
+import styled from 'styled-components'
+import Loading from '../loading'
+import LoadingV2 from '../loading-v2'
+import { debounce } from '../../api/utils'
+
 
 const ScrollContainer = styled.div`
   width: 100%;
@@ -9,13 +13,40 @@ const ScrollContainer = styled.div`
   overflow: hidden;
 `
 
+const PullupLoading = styled.div`
+  position: absolute;
+  left:0; right:0;
+  bottom: 5px;
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  z-index: 100;
+`;
+
+const PulldownLoading = styled.div`
+  position: absolute;
+  left:0; right:0;
+  top: 0px;
+  height: 30px;
+  margin: auto;
+  z-index: 100;
+`;
+
 const Scroll = forwardRef((props, ref) => {
     const scrollContaninerRef = useRef();
 
     const { direction, click, refresh, bounceTop, bounceBottom } = props;
-    const { pullUp, pullDown, onScroll } = props;
+    const { pullUp, pullDown, onScroll, pullupLoading, pulldownLoading } = props;
 
     const [bScroll, setBScroll] = useState();
+
+    let pullUpDebounce = useMemo(() => {
+        return debounce(pullUp, 300)
+    }, [pullUp])
+
+    let pullDownDebounce = useMemo(() => {
+        return debounce(pullDown, 300)
+    }, [pullDown])
 
     useEffect(() => {
         const scroll = new BScroll(scrollContaninerRef.current, {
@@ -57,7 +88,7 @@ const Scroll = forwardRef((props, ref) => {
         return () => {
             bScroll.off('scrollEnd')
         }
-    }, [pullUp, bScroll])
+    }, [pullUp, pullUpDebounce, bScroll])
 
     useEffect(() => {
         if (!bScroll || !pullDown) return;
@@ -70,7 +101,7 @@ const Scroll = forwardRef((props, ref) => {
         return () => {
             bScroll.off('touchEnd')
         }
-    }, [pullDown, bScroll])
+    }, [pullDown, pullDownDebounce, bScroll])
 
     useEffect(() => {
         if (refresh && bScroll) {
@@ -92,9 +123,13 @@ const Scroll = forwardRef((props, ref) => {
         }
     }));
 
+    const PullupDisplayStyle = pullupLoading ? { display: "" } : { display: "" }
+    const PulldownDisplayStyle = pulldownLoading ? { display: "" } : { display: "" }
     return (
         <ScrollContainer ref={scrollContaninerRef}>
             {props.children}
+            <PullupLoading style={PullupDisplayStyle}><Loading></Loading></PullupLoading>
+            <PulldownLoading style={PulldownDisplayStyle}><LoadingV2></LoadingV2></PulldownLoading>
         </ScrollContainer>
     )
 })
