@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, {keyframes} from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import style from '../../assets/global-style'
 const dance = keyframes`
     0%, 40%, 100% {
@@ -19,7 +19,11 @@ const Loading = styled.div`
     font-size: 10px;
     >div {
         display: inline-block;
-        background-color: ${style ['theme-color']}
+        background-color: ${style['theme-color']}
+        height: 100%;
+        width: 1px;
+        margin-right: 2px;
+        animation: ${dance} 1s infinite;
     }
     >div: nth-child (2) {
         animation-delay: -0.4s;
@@ -48,4 +52,4 @@ function LoadingV2() {
     )
 }
 
-export default React.memo (LoadingV2)
+export default React.memo(LoadingV2)

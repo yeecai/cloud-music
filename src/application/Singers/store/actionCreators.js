@@ -33,7 +33,7 @@ export const changePullDownLoading = data => ({
 
 export const getTopSingerList = () => {
     return (dispatch) => {
-        getTopSingerList(0).then(res => {
+        getTopSingerListRequest(0).then(res => {
             const data = res.artists
             dispatch(changeSingerList(data))
             dispatch(changeEnterLoading(false))

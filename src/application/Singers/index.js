@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Horizon from '../../baseUI/horizon-item'
 import { categoryTypes, alphaTypes } from '../../api/config'
 import { NavContainer, List, ListItem, ListContainer } from './style'
@@ -22,7 +22,9 @@ import { connect } from 'react-redux'
 function Singers(props) {
   let [category, setCategory] = useState('')
   let [alpha, setAlpha] = useState('')
+  const { getTopSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
 
+  const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
   let handleUpdateCategory = (val) => {
     setCategory(val)
     updateDispatch(category, val)
@@ -36,22 +38,15 @@ function Singers(props) {
   const handlePullUp = () => {
     pullUpRefreshDispatch(category, alpha, category === '', pageCount)
   }
-
+  
   const handlePullDown = () => {
     pullDownRefreshDispatch(category, alpha)
   }
-
-  const { getTopSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
-  const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
-
-
-  // const singerList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(item => {
-  //   return {
-  //     picUrl: "https://p2.music.126.net/uTwOm8AEFFX_BYHvfvFcmQ==/109951164232057952.jpg",
-  //     name: 'singer',
-  //     accountId: 277313426
-  //   }
-  // })
+  
+  
+  useEffect(() => {
+    getTopSingerDispatch();
+  }, [])
 
 
   const renderSingerList = () => {
@@ -110,7 +105,7 @@ const mapStateToProps = (state) => ({
   enterLoading: state.getIn(['singers', 'enterLoading']),
   pullUpLoading: state.getIn(['singers', 'pullUpLoading']),
   pullDownLoading: state.getIn(['singers', 'pullDownLoading']),
-  pageCountL: state.getIn(['singers', 'pageCount'])
+  pageCount: state.getIn(['singers', 'pageCount'])
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -127,7 +122,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(changePullUpLoading(true))
       dispatch(changePageCount(count + 1))
       if (top) {
-        dispatch(refreshMoreTopSingerList())
+          dispatch(refreshMoreTopSingerList())
       } else {
         dispatch(refreshMoreSingerList(category, alpha))
       }

@@ -128,8 +128,8 @@ const Scroll = forwardRef((props, ref) => {
     return (
         <ScrollContainer ref={scrollContaninerRef}>
             {props.children}
-            <PullupLoading style={PullupDisplayStyle}><Loading></Loading></PullupLoading>
-            <PulldownLoading style={PulldownDisplayStyle}><LoadingV2></LoadingV2></PulldownLoading>
+            {/* <PullupLoading style={PullupDisplayStyle}><Loading></Loading></PullupLoading> */}
+            {/* <PulldownLoading style={PulldownDisplayStyle}><LoadingV2></LoadingV2></PulldownLoading> */}
         </ScrollContainer>
     )
 })

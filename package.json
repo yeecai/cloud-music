@@ -49,5 +49,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://yeecai.github.io/cloud-music"
+  "homepage": "https://yeecai.github.io/cloud-music",
+  "proxy":"http:localhost:3000"
 }
