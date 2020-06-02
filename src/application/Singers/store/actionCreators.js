@@ -34,7 +34,8 @@ export const changePullDownLoading = data => ({
 export const getTopSingerList = () => {
     return (dispatch) => {
         getTopSingerListRequest(0).then(res => {
-            const data = res.artists
+            // const data = res.artists
+            const data = res.code === 200? res.artists : []
             dispatch(changeSingerList(data))
             dispatch(changeEnterLoading(false))
             dispatch(changePullDownLoading(false))
@@ -60,7 +61,7 @@ export const refreshMoreTopSingerList = () => {
 export const getSingerList = (category, alpha) => {
     return (dispatch, getState) => {
         getSingerListRequest(category, alpha, 0).then(res => {
-            const data = res.artists
+            const data = res.code === 200 ? res.artists : []
             dispatch(changeSingerList(data))
             dispatch(changeEnterLoading(false))
             dispatch(changePullDownLoading(false))
@@ -71,7 +72,7 @@ export const getSingerList = (category, alpha) => {
 export const refreshMoreSingerList = (category, alpha) => {
     return (dispatch, getState) => {
         const pageCount = getState().getIn(['singers', 'pageCount'])
-        const singerList = getState().getIn(['singers', 'singerList']).toJS()
+        const singerList = getState().getIn(['singers', 'singerList']).toJS() // if list is empty there will be a undefined error
         getSingerListRequest(category, alpha, pageCount).then(res => {
             const data = [...singerList, ...res.artists]
             dispatch(changeSingerList(data))

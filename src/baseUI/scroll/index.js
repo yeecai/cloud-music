@@ -139,8 +139,8 @@ Scroll.defaultProps = {
     click: true,
     refresh: true,
     onScroll: null,
-    pullUpLoading: false,
-    pullDownLoading: false,
+    pullupLoading: false,
+    pulldownLoading: false,
     pullUp: null,
     pullDown: null,
     bounceTop: true,
@@ -154,8 +154,8 @@ Scroll.propTypes = {
     onScroll: PropTypes.func,// 滑动触发的回调函数
     pullUp: PropTypes.func,// 上拉加载逻辑
     pullDown: PropTypes.func,// 下拉加载逻辑
-    pullUpLoading: PropTypes.bool,// 是否显示上拉 loading 动画
-    pullDownLoading: PropTypes.bool,// 是否显示下拉 loading 动画
+    pullupLoading: PropTypes.bool,// 是否显示上拉 loading 动画
+    pulldownLoading: PropTypes.bool,// 是否显示下拉 loading 动画
     bounceTop: PropTypes.bool,// 是否支持向上吸顶
     bounceBottom: PropTypes.bool// 是否支持向下吸底
 };

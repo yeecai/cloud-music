@@ -27,12 +27,12 @@ function Singers(props) {
   const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
   let handleUpdateCategory = (val) => {
     setCategory(val)
-    updateDispatch(category, val)
+    updateDispatch(val, alpha)
   }
-
+  
   let handleUpdateAlpha = (val) => {
     setAlpha(val)
-    updateDispatch(val, alpha)
+    updateDispatch(category, val)
   }
 
   const handlePullUp = () => {
@@ -95,7 +95,8 @@ function Singers(props) {
         >
           {renderSingerList()}
         </Scroll>
-        <Loading show={enterLoading}></Loading>
+        {/* <Loading show={enterLoading}></Loading> */}
+       { enterLoading?<Loading></Loading>:null}
       </ListContainer>
     </div>
   )
