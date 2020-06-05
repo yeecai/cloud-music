@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Horizon from '../../baseUI/horizon-item'
 import { categoryTypes, alphaTypes } from '../../api/config'
 import { NavContainer, List, ListItem, ListContainer } from './style'
@@ -17,21 +17,26 @@ import {
   refreshMoreTopSingerList,
 } from './store/actionCreators';
 import { connect } from 'react-redux'
+import { CategoryDataContext, CHANGE_ALPHA, CHANGE_CATEGORY } from './data';
 
 // div width should be fixed, and 2 Horizon's width should be wider than div
 function Singers(props) {
-  let [category, setCategory] = useState('')
-  let [alpha, setAlpha] = useState('')
+  // let [category, setCategory] = useState('')
+  // let [alpha, setAlpha] = useState('')
+  const { data, dispatch } = useContext(CategoryDataContext)
+  const {category, alpha} = data.toJS()
+
   const { getTopSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
 
   const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
   let handleUpdateCategory = (val) => {
-    setCategory(val)
+    dispatch({type: CHANGE_ALPHA,  data:val})
     updateDispatch(val, alpha)
   }
   
   let handleUpdateAlpha = (val) => {
-    setAlpha(val)
+    // setAlpha(val)
+    dispatch({type: CHANGE_CATEGORY,  data:val})
     updateDispatch(category, val)
   }
 
@@ -45,7 +50,7 @@ function Singers(props) {
   
   
   useEffect(() => {
-    getTopSingerDispatch();
+    if (!singerList.size) getTopSingerDispatch();
   }, [])
 
 
@@ -95,7 +100,6 @@ function Singers(props) {
         >
           {renderSingerList()}
         </Scroll>
-        {/* <Loading show={enterLoading}></Loading> */}
        { enterLoading?<Loading></Loading>:null}
       </ListContainer>
     </div>

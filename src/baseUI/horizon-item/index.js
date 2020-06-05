@@ -51,7 +51,6 @@ function Horizon(props) {
     // }, [])
     return (
         <Scroll direction={'horizontal'}>
-            {/* <div ref={Category}> */}
                 <List>
                     <span>{title}</span>
                     {

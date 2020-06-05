@@ -5,6 +5,8 @@ import { renderRoutes } from 'react-router-config';
 import { Provider } from "react-redux";
 import store from './store/index'
 
+import { Data } from './application/Singers/data'
+
 import routes from './routes'
 import {
   BrowserRouter as Router,
@@ -16,7 +18,9 @@ function App() {
       <Router>
         <GlobalStyle></GlobalStyle>
         <IconStyle></IconStyle>
+        <Data>
         {renderRoutes(routes)}
+        </Data>
       </Router>
     </Provider>
   );
