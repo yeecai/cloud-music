@@ -22,3 +22,11 @@ export const debounce = (func, delay) => {
         }, delay)
     }
 }
+
+export const findGlobal = rankList => {
+    for(let i; i < rankList.length - 1; i++) {
+        if(rankList[i].tracks.length && !rankList[index + 1].length){
+            return index + 1
+        }
+    }
+}
