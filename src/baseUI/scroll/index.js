@@ -50,7 +50,7 @@ const Scroll = forwardRef((props, ref) => {
 
     useEffect(() => {
         const scroll = new BScroll(scrollContaninerRef.current, {
-            scrollX: direction === 'horizontal',
+            scrollX: direction === 'horizental',
             scrollY: direction === 'vertical',
             propeType: 3,
             click: click,
@@ -71,7 +71,7 @@ const Scroll = forwardRef((props, ref) => {
         if (!bScroll || !onScroll) return;
         bScroll.on('scroll', (scroll) => {
             onScroll(scroll);
-            // alert('on')
+            alert('on')
         })
         return () => {
             bScroll.off('scroll')
@@ -148,7 +148,7 @@ Scroll.defaultProps = {
 };
 
 Scroll.propTypes = {
-    direction: PropTypes.oneOf(['vertical', 'horizontal']),// 滚动的方向
+    direction: PropTypes.oneOf(['vertical', 'horizental']),// 滚动的方向
     click: PropTypes.bool,
     refresh: PropTypes.bool,// 是否刷新
     onScroll: PropTypes.func,// 滑动触发的回调函数

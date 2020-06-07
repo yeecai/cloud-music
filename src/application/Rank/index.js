@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { getRankList } from "./store";
 import { findGlobal } from "../../api/utils";
 import { renderRoutes } from "react-router-config";
+import { SongList, List, ListItem, Container } from "./style.js";
+import Scroll from "../../baseUI/scroll/index";
+import Loading from "../../baseUI/loading";
 
 function Rank(props) {
   const { rankList: list, loading } = props;
@@ -20,12 +23,9 @@ function Rank(props) {
   let officialList = rankList.slice(0, globalStartIndex);
   let globalList = rankList.slice(globalStartIndex);
 
-  const enterDetail = (name) => {
-    const idx = filterIdx(name);
-    if (idx === null) {
-      alert("no data found");
-      return;
-    }
+
+  const enterDetail = (item) => {
+    props.history.push(`/rank/${item.id}`)
   };
 
   const renderSongList = (list) => {
@@ -52,10 +52,12 @@ function Rank(props) {
             <ListItem
               key={item.coverImgId}
               tracks={item.tracks}
-              onClick={() => enterDetail(item.name)}
+              onClick={() => enterDetail(item)}
             >
-              <div>
-                <img src={img.coverImgUrl} alt="" />
+              <div className="img_wrapper">
+                <img src={item.coverImgUrl} alt="" />
+                <span className='update-frequency'>{item.updateFrequency}</span>
+                <div className="decorate"></div>
               </div>
               {renderSongList(item.tracks)}
             </ListItem>
@@ -68,14 +70,19 @@ function Rank(props) {
   let displayStyle = loading ? { display: "none" } : { display: "" };
 
   return (
-    <Container>
+    <Container songcount={1}>
       <Scroll>
         <div>
-          <h1>offical</h1>
+          <h1 className="offical" style={displayStyle}>
+            Offical Rank
+          </h1>
           {renderRankList(officialList)}
-          <h1>global</h1>
+          <h1 className="global" style={displayStyle}>
+            Global Rank
+          </h1>
           {renderRankList(globalList, true)}
-          {loading ? <EnterLoading><Loading></Loading></EnterLoading>:null}
+          {loading ? <Loading></Loading> : null}
+          {/* TODO: <EnterLoading></EnterLoading> */}
         </div>
       </Scroll>
       {renderRoutes(props.route.routes)}
@@ -83,7 +90,7 @@ function Rank(props) {
   );
 }
 
-const mapStateToProps = (state = {
+const mapStateToProps = (state) => ({
   rankList: state.getIn(["rank", "rankList"]),
   loading: state.getIn(["rank", "loading"]),
 });

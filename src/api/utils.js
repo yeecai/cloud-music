@@ -24,9 +24,9 @@ export const debounce = (func, delay) => {
 }
 
 export const findGlobal = rankList => {
-    for(let i; i < rankList.length - 1; i++) {
-        if(rankList[i].tracks.length && !rankList[index + 1].length){
-            return index + 1
+    for(let i =0 ; i < rankList.length - 1; i++) {
+        if(rankList[i].tracks.length && !rankList[i + 1].tracks.length){
+            return i + 1
         }
     }
 }

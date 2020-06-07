@@ -8,7 +8,7 @@ function Slider(props) {
     const { bannerList } = props;
 
     useEffect(() => {
-        if (bannerList.lengh && !sliderSwiper) {
+        if (bannerList.length && !sliderSwiper) {
             let sliderSwiper = new Swiper(".slider-container", {
                 initialSlide: 3,
                 autoplay: {
@@ -25,7 +25,7 @@ function Slider(props) {
             });
             setSliderSwiper(sliderSwiper)
         }
-    }, [bannerList.lengh, sliderSwiper]);
+    }, [bannerList.length, sliderSwiper]);
 
     return (
         <SliderContainer>
@@ -37,7 +37,7 @@ function Slider(props) {
                             return (
                                 <div className="swiper-slide" key={slider.picUrl}>
                                     <div className="slider-nav">
-                                        <img src={slider.picUrl} width="100%" height="100%" alt="recommend" />
+                                        <img src={slider.imageUrl} width="100%" height="100%" alt="recommend" />
                                     </div>
                                 </div>
                             )

@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import * as actionTypes from './store/actionCreators'
 import { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload';
+import { renderRoutes } from 'react-router-config';
 
 // debugger
 function Recommend(props) {
@@ -29,15 +30,17 @@ function Recommend(props) {
 
   return (
     <Content>
-      <Scroll className="list" onScroll={forceCheck}>
-        {/* onScroll={() => { alert("onScroll") } */}
-        }>
+      <Scroll className="list" 
+      // onScroll={forceCheck}
+         onScroll={() => alert("onScroll")}
+          >
         <div>
           <Slider bannerList={bannerListJS}></Slider>
           <RecommendList recommendList={recommendListJS}></RecommendList>
         </div>
       </Scroll>
       {isLoading ? <Loading></Loading>: null}
+      { renderRoutes(props.route.routes) }
     </Content>
   )
 }
