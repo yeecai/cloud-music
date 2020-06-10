@@ -28,7 +28,7 @@ const Header = React.forwardRef((props, ref) => {
   return (
     <HeaderContainer ref={ref}>
       <i className="back" onClick={handleClick}>
-        icon todo
+        --
       </i>
       <h1>{title}</h1>
     </HeaderContainer>
