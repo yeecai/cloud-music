@@ -1,102 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "./style";
 import { CSSTransition } from "react-transition-group";
 import Header from "./../../baseUI/header/index";
 import Scroll from "../../baseUI/scroll";
-import { getName } from "../../api/utils";
+import { getName, isEmptyObject } from "../../api/utils";
 import { TopDesc, Menu, SongItem, SongList } from "./style";
+import { connect } from "react-redux";
+import { getAlbumList, changeEnterLoading } from "./store/actionCreators";
 
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
 
+  const id = props.match.params.id;
+  const { currentAlbum: currentAlbumImmutable, enterLoading } = props;
+  const { getAlbumDataDispatch } = props;
+
+  useEffect(() => {
+    getAlbumDataDispatch(id);
+  }, [getAlbumDataDispatch, id]);
   const handleBack = () => {
     setShowStatus(false);
   };
 
-  //mock 数据
-  const currentAlbum = {
-    author: {
-      avatarUrl:
-        "http://p1.music.126.net/O9zV6jeawR43pfiK2JaVSw==/109951164232128905.jpg",
-      username: "浪里推舟",
-    },
-    coverImgUrl:
-      "http://p2.music.126.net/ecpXnH13-0QWpWQmqlR0gw==/109951164354856816.jpg",
-    subscribedCount: 2010711,
-    name: "听完就睡，耳机是天黑以后柔软的梦境",
-    tracks: [
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-      {
-        name: "我真的受伤了",
-        ar: [{ name: "张学友" }, { name: "周华健" }],
-        al: {
-          name: "学友 热",
-        },
-      },
-    ],
-  };
+  let currentAlbum = currentAlbumImmutable.toJS();
   const renderSongList = () => {
     return (
       <SongList>
@@ -143,55 +69,70 @@ function Album(props) {
     >
       <Container>
         <Header title="back" handleClick={handleBack}></Header>
-        <Scroll>
-          <TopDesc background={currentAlbum.coverImgUrl}>
-            <div className="background">
-              <div className="filter"></div>
-            </div>
-            <div className="img_wrapper_left">
-              <div className="decorate"></div>
-              <img src={currentAlbum.coverImgUrl} alt="" />
-              <div className="play_amount">
-                <i className="iconfont play">&#xe885;</i>
-                {/* TODO: headphone icon */}
-                <span className="amount">{`${Math.floor(
-                  currentAlbum.subscribedCount / 1000
-                )}W`}</span>
+        {!isEmptyObject(currentAlbum) ? (
+          <Scroll>
+            <TopDesc background={currentAlbum.coverImgUrl}>
+              <div className="background">
+                <div className="filter"></div>
               </div>
-            </div>
-            <div className="desc_wrapper_right">
-              <div className="title">{currentAlbum.name}</div>
-              <div className="author">
-                <div className="avatar">
-                  <img src={currentAlbum.author.avatarUrl} alt="" />
+              <div className="img_wrapper_left">
+                <div className="decorate"></div>
+                <img src={currentAlbum.coverImgUrl} alt="" />
+                <div className="play_amount">
+                  <i className="iconfont play">&#xe885;</i>
+                  {/* TODO: headphone icon */}
+                  <span className="amount">{`${Math.floor(
+                    currentAlbum.subscribedCount / 1000
+                  )}W`}</span>
                 </div>
-                <div className="name">{currentAlbum.author.username}</div>
               </div>
-            </div>
-          </TopDesc>
-          <Menu>
-            <div>
-              <i className="iconfont">&#xe6ad;</i>
-              Comment
-            </div>
-            <div>
-              <i className="iconfont">&#xe86f;</i>
-              Like
-            </div>
-            <div>
-              <i className="iconfont">&#xe62d;</i>
-              Save
-            </div>
-            <div>
-              <i className="iconfont">&#xe606;</i>
-              More
-            </div>
-          </Menu>
-          {renderSongList()}
-        </Scroll>
+              <div className="desc_wrapper_right">
+                <div className="title">{currentAlbum.name}</div>
+                <div className="author">
+                  <div className="avatar">
+                    <img src={currentAlbum.creator.avatarUrl} alt="" />
+                  </div>
+                  <div className="name">{currentAlbum.creator.username}</div>
+                </div>
+              </div>
+            </TopDesc>
+            <Menu>
+              <div>
+                <i className="iconfont">&#xe6ad;</i>
+                Comment
+              </div>
+              <div>
+                <i className="iconfont">&#xe86f;</i>
+                Like
+              </div>
+              <div>
+                <i className="iconfont">&#xe62d;</i>
+                Save
+              </div>
+              <div>
+                <i className="iconfont">&#xe606;</i>
+                More
+              </div>
+            </Menu>
+            {renderSongList()}
+          </Scroll>
+        ) : null}
       </Container>
     </CSSTransition>
   );
 }
+const mapStateToProps = (state) => ({
+  currentAlbum: state.getIn(["album", "currentAlbum"]),
+  enterLoading: state.getIn(["album", "enterLoading"]),
+});
 
-export default Album;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAlbumDataDispatch(id) {
+      dispatch(changeEnterLoading(true));
+      dispatch(getAlbumList(id));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Album));
