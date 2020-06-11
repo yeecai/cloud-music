@@ -101,8 +101,17 @@ function Album(props) {
     return (
       <SongList>
         <div className="songlist_top">
-            <div>Play all<span>({currentAlbum.tracks.length} in total)</span></div>
-            <div>Save()</div>
+          <div className="play_all">
+            <i className="iconfont">&#xe6e3;</i>
+            Play all<span>({currentAlbum.tracks.length} in total)</span>
+          </div>
+          <div className="save">
+            <span>
+              {" "}
+              <i className="iconfont">&#xe62d;</i>
+              Save(29K)
+            </span>
+          </div>
         </div>
         <SongItem>
           {currentAlbum.tracks.map((item, index) => {
@@ -143,7 +152,7 @@ function Album(props) {
               <div className="decorate"></div>
               <img src={currentAlbum.coverImgUrl} alt="" />
               <div className="play_amount">
-                <i className='play'>i</i>
+                <i className="iconfont play">&#xe885;</i>
                 {/* TODO: headphone icon */}
                 <span className="amount">{`${Math.floor(
                   currentAlbum.subscribedCount / 1000
@@ -162,11 +171,21 @@ function Album(props) {
           </TopDesc>
           <Menu>
             <div>
-            <i className="iconfont">&#xe6ad;</i>
-                Comment</div>
-            <div>Like</div>
-            <div>Save</div>
-            <div>More</div>
+              <i className="iconfont">&#xe6ad;</i>
+              Comment
+            </div>
+            <div>
+              <i className="iconfont">&#xe86f;</i>
+              Like
+            </div>
+            <div>
+              <i className="iconfont">&#xe62d;</i>
+              Save
+            </div>
+            <div>
+              <i className="iconfont">&#xe606;</i>
+              More
+            </div>
           </Menu>
           {renderSongList()}
         </Scroll>

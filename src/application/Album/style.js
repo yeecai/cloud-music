@@ -117,14 +117,49 @@ export const TopDesc = styled.div`
   }
 `;
 export const Menu = styled.div`
-// position: relative;
+  // position: relative;
   display: flex;
-    justify-content: space-between;
-    margin-top: -100px;
-    padding: 20px 30px;
-
+  justify-content: space-between;
+  margin-top: -100px;
+  padding: 20px 30px;
+  color: ${style["font-color-light"]};
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
 `;
-export const SongList = styled.div``;
+export const SongList = styled.div`
+  background: ${style["highlight-background-color"]};
+  opacity: 0.98;
+  border-radius: 10px;
+  line-height: 24px;
+  .songlist_top {
+    line-height: 40px;
+    box-sizing: border-box;
+    display: flex;
+    marigin-left: 10px;
+    position: relative;
+    border-bottom: 1px solid ${style["border-color"]};
+    justify-content: space-between;
+    .play_all {
+      flex: 2;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    .save {
+      flex: 1;
+      background: ${style["theme-color"]};
+      color: ${style["font-color-light"]};
+      display: flex;
+      justify-content: center;
+    }
+    > span {
+      vertical-align: top;
+    }
+  }
+`;
 export const SongItem = styled.ul`
   > li {
     display: flex;
