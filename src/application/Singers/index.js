@@ -5,6 +5,7 @@ import { NavContainer, List, ListItem, ListContainer } from './style'
 import Scroll from '../../baseUI/scroll';
 import Loading from '../../baseUI/loading'
 import LazyLoad, { forceCheck } from 'react-lazyload'
+import { renderRoutes } from 'react-router-config';
 
 import {
   getSingerList,
@@ -61,7 +62,7 @@ function Singers(props) {
         {
           list.map((item, index) => {
             return (
-              <ListItem key={item.accountId + '' + index}>
+              <ListItem key={item.accountId + '' + index} onClick={() => props.history.push (`/singers/${item.id}`)}>
                 <div className='img_wrapper'>
                   <LazyLoad placeholder={<img width="100%" height="100%" src={require('./singer.png')} alt="singer"/>}>
                     <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
@@ -102,6 +103,7 @@ function Singers(props) {
         </Scroll>
        { enterLoading?<Loading></Loading>:null}
       </ListContainer>
+      { renderRoutes (props.route.routes) }
     </div>
   )
 }

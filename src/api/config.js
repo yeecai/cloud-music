@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const baseUrl = 'http://localhost:3000'
-
+export const HEADER_HEIGHT = 45;
 
 const axiosInstance = axios.create ({
     baseURL: baseUrl

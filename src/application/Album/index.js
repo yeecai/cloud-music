@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Container } from "./style";
 import { CSSTransition } from "react-transition-group";
 import Header from "./../../baseUI/header/index";
 import Scroll from "../../baseUI/scroll";
-import { getName, isEmptyObject } from "../../api/utils";
-import { TopDesc, Menu, SongItem, SongList } from "./style";
+import { isEmptyObject } from "../../api/utils";
+import { TopDesc, Menu } from "./style";
 import { connect } from "react-redux";
 import { getAlbumList, changeEnterLoading } from "./store/actionCreators";
+import SongList from "../SongList";
+import { HEADER_HEIGHT } from './../../api/config';
+import style from "../../assets/global-style";
 
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
+  const [isMarquee, setIsMarquee] = useState(false);//是否跑马灯
+  const headerEl = useRef();
 
   const id = props.match.params.id;
   const { currentAlbum: currentAlbumImmutable, enterLoading } = props;
@@ -18,47 +23,35 @@ function Album(props) {
   useEffect(() => {
     getAlbumDataDispatch(id);
   }, [getAlbumDataDispatch, id]);
-  const handleBack = () => {
+
+  const handleBack = useCallback(() => {
     setShowStatus(false);
-  };
+  }, []);
 
   let currentAlbum = currentAlbumImmutable.toJS();
-  const renderSongList = () => {
-    return (
-      <SongList>
-        <div className="songlist_top">
-          <div className="play_all">
-            <i className="iconfont">&#xe6e3;</i>
-            Play all<span>({currentAlbum.tracks.length} in total)</span>
-          </div>
-          <div className="save">
-            <span>
-              {" "}
-              <i className="iconfont">&#xe62d;</i>
-              Save(29K)
-            </span>
-          </div>
-        </div>
-        <SongItem>
-          {currentAlbum.tracks.map((item, index) => {
-            return (
-              <li key={index}>
-                <span className="index">{index + 1}</span>
-                <div className="info">
-                  <span>{item.name}</span>
-                  <span>
-                    {getName(item.ar)} - {item.al.name}
-                  </span>
-                </div>
-              </li>
-            );
-          })}
-        </SongItem>
-      </SongList>
-    );
-  };
+  const [title, setTitle] = useState("歌单");
+
+  const handleScroll = useCallback(
+    (pos) => {
+      let minScrollY = -HEADER_HEIGHT;
+      let percent = Math.abs(pos.y / minScrollY);
+      let headerDom = headerEl.current;
+      //滑过顶部的高度开始变化
+      if (pos.y < minScrollY) {
+        headerDom.style.backgroundColor = style["theme-color"];
+        headerDom.style.opacity = Math.min(1, (percent - 1) / 2);
+        setTitle(currentAlbum.name);
+        setIsMarquee(true);
+      } else {
+        headerDom.style.backgroundColor = "";
+        headerDom.style.opacity = 1;
+        setTitle("歌单");
+        setIsMarquee(false);
+      }
+    },
+    [currentAlbum]
+  );
   return (
-    // <div>test</div>
     <CSSTransition
       in={showStatus}
       timeout={300}
@@ -70,7 +63,7 @@ function Album(props) {
       <Container>
         <Header title="back" handleClick={handleBack}></Header>
         {!isEmptyObject(currentAlbum) ? (
-          <Scroll>
+          <Scroll onScroll={handleScroll}>
             <TopDesc background={currentAlbum.coverImgUrl}>
               <div className="background">
                 <div className="filter"></div>
@@ -80,7 +73,6 @@ function Album(props) {
                 <img src={currentAlbum.coverImgUrl} alt="" />
                 <div className="play_amount">
                   <i className="iconfont play">&#xe885;</i>
-                  {/* TODO: headphone icon */}
                   <span className="amount">{`${Math.floor(
                     currentAlbum.subscribedCount / 1000
                   )}W`}</span>
@@ -114,7 +106,11 @@ function Album(props) {
                 More
               </div>
             </Menu>
-            {renderSongList()}
+            <SongList
+              savedCount={currentAlbum.subscribedCount}
+              songs={currentAlbum.tracks}
+              showSaved={true}
+            />
           </Scroll>
         ) : null}
       </Container>
