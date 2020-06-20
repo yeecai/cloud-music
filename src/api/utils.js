@@ -31,6 +31,7 @@ export const findGlobal = rankList => {
     }
 }
 
+// TODO try join
 export const getName = list => {
     let str = ""
     list.map ((item, index) => {
@@ -39,5 +40,8 @@ export const getName = list => {
     return str
 }
 
+export const getNameByJoin = list => {
+    return list.map(a => a.name).join('/')
+}
 export const isEmptyObject = obj => !obj || Object.keys(obj).length === 0;
 

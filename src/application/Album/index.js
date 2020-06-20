@@ -36,7 +36,6 @@ function Album(props) {
       let minScrollY = -HEADER_HEIGHT;
       let percent = Math.abs(pos.y / minScrollY);
       let headerDom = headerEl.current;
-      //滑过顶部的高度开始变化
       if (pos.y < minScrollY) {
         headerDom.style.backgroundColor = style["theme-color"];
         headerDom.style.opacity = Math.min(1, (percent - 1) / 2);
@@ -63,7 +62,9 @@ function Album(props) {
       <Container>
         <Header title="back" handleClick={handleBack}></Header>
         {!isEmptyObject(currentAlbum) ? (
-          <Scroll onScroll={handleScroll}>
+          <Scroll>
+          {/* </Scroll> onScroll={handleScroll}> */}
+          <div>
             <TopDesc background={currentAlbum.coverImgUrl}>
               <div className="background">
                 <div className="filter"></div>
@@ -75,7 +76,7 @@ function Album(props) {
                   <i className="iconfont play">&#xe885;</i>
                   <span className="amount">{`${Math.floor(
                     currentAlbum.subscribedCount / 1000
-                  )}W`}</span>
+                    )}W`}</span>
                 </div>
               </div>
               <div className="desc_wrapper_right">
@@ -111,6 +112,7 @@ function Album(props) {
               songs={currentAlbum.tracks}
               showSaved={true}
             />
+            </div>
           </Scroll>
         ) : null}
       </Container>

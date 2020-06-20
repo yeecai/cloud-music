@@ -10,6 +10,7 @@ import * as actionTypes from './store/actionCreators'
 import { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload';
 import { renderRoutes } from 'react-router-config';
+import Player from '../Player';
 
 // debugger
 function Recommend(props) {
@@ -32,8 +33,9 @@ function Recommend(props) {
     <Content>
       <Scroll className="list" 
       // onScroll={forceCheck}
-         onScroll={() => alert("onScroll")}
-          >
+      onScroll={() => alert("onScroll")}
+      >
+      <Player></Player>
         <div>
           <Slider bannerList={bannerListJS}></Slider>
           <RecommendList recommendList={recommendListJS}></RecommendList>

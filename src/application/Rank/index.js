@@ -6,6 +6,7 @@ import { renderRoutes } from "react-router-config";
 import { SongList, List, ListItem, Container } from "./style.js";
 import Scroll from "../../baseUI/scroll/index";
 import Loading from "../../baseUI/loading";
+import Player from "../Player";
 
 function Rank(props) {
   const { rankList: list, loading } = props;
@@ -23,9 +24,8 @@ function Rank(props) {
   let officialList = rankList.slice(0, globalStartIndex);
   let globalList = rankList.slice(globalStartIndex);
 
-
   const enterDetail = (item) => {
-    props.history.push(`/rank/${item.id}`)
+    props.history.push(`/rank/${item.id}`);
   };
 
   const renderSongList = (list) => {
@@ -56,7 +56,7 @@ function Rank(props) {
             >
               <div className="img_wrapper">
                 <img src={item.coverImgUrl} alt="" />
-                <span className='update-frequency'>{item.updateFrequency}</span>
+                <span className="update-frequency">{item.updateFrequency}</span>
                 <div className="decorate"></div>
               </div>
               {renderSongList(item.tracks)}
@@ -71,20 +71,21 @@ function Rank(props) {
 
   return (
     <Container songcount={1}>
-      <Scroll>
-        <div>
-          <h1 className="offical" style={displayStyle}>
-            Offical Rank
-          </h1>
-          {renderRankList(officialList)}
-          <h1 className="global" style={displayStyle}>
-            Global Rank
-          </h1>
-          {renderRankList(globalList, true)}
-          {loading ? <Loading></Loading> : null}
-          {/* TODO: <EnterLoading></EnterLoading> */}
-        </div>
-      </Scroll>
+      {/* <Scroll> */}
+      <div>
+        <h1 className="offical" style={displayStyle}>
+          Offical Rank
+        </h1>
+        {renderRankList(officialList)}
+        <Player />
+        <h1 className="global" style={displayStyle}>
+          Global Rank
+        </h1>
+        {renderRankList(globalList, true)}
+        {loading ? <Loading></Loading> : null}
+        {/* TODO: <EnterLoading></EnterLoading> */}
+      </div>
+      {/* </Scroll> */}
       {renderRoutes(props.route.routes)}
     </Container>
   );

@@ -13,7 +13,7 @@ const SongsList = React.forwardRef((props, refs) => {
       <div className="save">
         <span>
           <i className="iconfont">&#xe62d;</i>
-          Saved({Math.floor(savedCount/1000)/10}w)
+          Saved({Math.floor(savedCount / 1000) / 10}w)
         </span>
       </div>
     );

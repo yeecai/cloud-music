@@ -3,6 +3,11 @@ import axios from "axios";
 export const baseUrl = 'http://localhost:3000'
 export const HEADER_HEIGHT = 45;
 
+export const playMode = {
+  sequence: 0,
+  loop: 1,
+  randown: 2
+}
 const axiosInstance = axios.create ({
     baseURL: baseUrl
 })
