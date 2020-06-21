@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import { getName } from "../../../api/utils";
 import { CSSTransition } from "react-transition-group";
+import { prefixStyle } from "../../../api/utils";
+
 import {
   NormalPlayerContainer,
   Top,
@@ -11,10 +13,12 @@ import {
 } from "./style";
 import animations from "create-keyframe-animation";
 
+
 function NormalPlayer(props) {
-  const { song, fullScreen, toggleFullScreenDispatch } = props;
+  const { song, fullScreen, toggleFullScreen } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
+
   const enter = () => {
     normalPlayerRef.current.style.display = "block";
     const { x, y, scale } = _getPosAndScale(); //get difference from miniPlayer's img and normalPlayers img
@@ -45,6 +49,22 @@ function NormalPlayer(props) {
     cdWrapperDom.style.animation = "";
   };
 
+  const transform = prefixStyle("transform")
+
+  const leave = () => {
+      if(!cdWrapperRef.current) return;
+      const cdWrapperDom = cdWrapperRef.current;
+      cdWrapperDom.style.transition = "all 0.4s";
+      const { x, y, scale} = _getPosAndScale();
+      cdWrapperDom.style[transform] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+  }
+  const afterLeave = () => {
+    if(!cdWrapperRef.current) return;
+    const cdWrapperDom = cdWrapperRef.current;
+    cdWrapperDom.style.transition = "";
+    cdWrapperDom.style[transform] = '';
+    normalPlayerRef.current.style.display = "none";
+  };
   const _getPosAndScale = () => {
     const targetWidth = 40;
     const paddingLeft = 40;
@@ -68,11 +88,11 @@ function NormalPlayer(props) {
       mountOnEnter
       onEnter={enter}
       onEntered={afterEnter}
-      //onExit={leave}
-      //onExited={afterLeave}
+      onExit={leave}
+      onExited={afterLeave}
     >
       <NormalPlayerContainer ref={normalPlayerRef}>
-        <div className="background">
+        <div className="background ">
           <img
             src={song.al.picUrl + "?param=300x300"}
             width="100%"
@@ -80,8 +100,9 @@ function NormalPlayer(props) {
             alt="歌曲图片"
           />
         </div>
+        <div className="background layer"></div>
         <Top className="top">
-          <div className="back">
+          <div className="back" onClick={() => toggleFullScreen(false)}>
             <i className="iconfont icon-back">&#xe662;</i>
           </div>
           <h1 className="title">{song.name}</h1>

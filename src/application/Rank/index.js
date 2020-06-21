@@ -77,10 +77,10 @@ function Rank(props) {
           Offical Rank
         </h1>
         {renderRankList(officialList)}
-        <Player />
         <h1 className="global" style={displayStyle}>
           Global Rank
         </h1>
+        <Player />
         {renderRankList(globalList, true)}
         {loading ? <Loading></Loading> : null}
         {/* TODO: <EnterLoading></EnterLoading> */}

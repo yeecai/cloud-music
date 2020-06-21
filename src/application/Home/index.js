@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderRoutes } from 'react-router-config'
 import { useTranslation, Trans, withTranslation } from "react-i18next";
-
+import Player from '../Player'
 import {
   Top,
   Tab,
@@ -25,6 +25,7 @@ function Home(props) {
            {/* <i className="iconfont">&#xe637;</i> */}
         </span>
       </Top>
+      {/* <Player/> */}
       <Tab>
         <NavLink to="/recommend" activeClassName="selected"><TabItem><span>{t('1')}</span></TabItem></NavLink>
         <NavLink to="/singers" activeClassName="selected"><TabItem><span>{t('2')}</span></TabItem></NavLink>

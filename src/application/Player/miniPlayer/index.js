@@ -2,11 +2,13 @@ import React, { useRef } from "react";
 import { MiniPlayerContainer } from "./style";
 import { getNameByJoin } from "../../../api/utils";
 import { CSSTransition } from "react-transition-group";
+import ProgressCircle from "../../../baseUI/process-circle";
 
 function MiniPlayer(props) {
   const { song, playing, fullScreen } = props;
   const { toggleFullScreen } = props;
   const miniPlayerRef = useRef();
+  let percent = 0.2;
 
   return (
     <CSSTransition
@@ -40,7 +42,9 @@ function MiniPlayer(props) {
           <p className="desc">{getNameByJoin(song.ar)}</p>
         </div>
         <div className="control">
-          <i className="iconfont">&#xe650;</i>
+          <ProgressCircle radius={32} percent={percent}>
+            <i className="iconfont icon-mini">&#xe650;</i>
+          </ProgressCircle>
         </div>
         <div className="control">
           <i className="iconfont">&#xe640;</i>

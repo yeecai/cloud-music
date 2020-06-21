@@ -18,7 +18,7 @@ export const NormalPlayerContainer = styled.div`
   z-index: 150;
   background: ${style["background-color"]};
   .background {
-    position: fixed;
+    position: absolute;
     left: 0;
     right: 0;
     width: 100%;
@@ -26,20 +26,57 @@ export const NormalPlayerContainer = styled.div`
     z-index: -1;
     opacity: 0.6;
     filter: blur(20px);
+    &.layer {
+      background: ${style["font-color-desc"]};
+      opacity: 0.3;
+      filter: none;
+    }
   }
-  &.mini-enter {
-    transform: translate3d(0, 100%, 0);
+
+  &.normal-enter,
+  &.normal-exit-done {
+    .top {
+      transform: translate3d(0, -100px, 0);
+    }
+    ,
+    .bottom {
+      transform: translate3d(0, 100px, 0);
+    }
   }
-  &.mini-enter-active {
-    transform: translate3d(0, 0, 0);
+  &.normal-enter-active,
+  &.normal-exit-active {
+    .top,
+    .bottom {
+      transform: translate3d(0, 0, 0);
+      transition: all 0.4s cubic-bezier(0.86, 0.18, 0.82, 1.32);
+    }
+    opacity: 1;
     transition: all 0.4s;
   }
-  &.mini-exit {
-    transform: translate3d(0, 0, 0);
+  &.normal-exit-active {
+    opacity: 0;
   }
-  &.mini-exit-active {
-    transform: translate3d(0, 100%, 0);
+  &.normal-enter,
+  &.normal-exit-done {
+    .top {
+      transform: translate3d(0, -100px, 0);
+    }
+    .bottom {
+      transform: translate3d(0, 100px, 0);
+    }
+  }
+  &.normal-enter-active,
+  &.normal-exit-active {
+    .top,
+    .bottom {
+      transform: translate3d(0, 0, 0);
+      transition: all 0.4s cubic-bezier(0.86, 0.18, 0.82, 1.32);
+    }
+    opacity: 1;
     transition: all 0.4s;
+  }
+  &.normal-exit-active {
+    opacity: 0;
   }
 `;
 
@@ -98,8 +135,10 @@ export const CDWrapper = styled.div`
       left: 0;
       right: 0;
       position: absolute;
-      height: 95%;
-      width: 95%;
+      height: 100%;
+      width: 100%;
+      //   height: 95%;
+      //   width: 95%;
       border-sizing: border-box;
       border-radius: 50%;
       border: 10px solid rgba(255, 255, 255, 0.1);
