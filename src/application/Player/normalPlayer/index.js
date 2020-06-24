@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { getName } from "../../../api/utils";
 import { CSSTransition } from "react-transition-group";
 import { prefixStyle } from "../../../api/utils";
+import ProgressBar from "../../../baseUI/progress-bar/index";
 
 import {
   NormalPlayerContainer,
@@ -10,9 +11,9 @@ import {
   Bottom,
   Operators,
   CDWrapper,
+  ProgressWrapper,
 } from "./style";
 import animations from "create-keyframe-animation";
-
 
 function NormalPlayer(props) {
   const { song, fullScreen, toggleFullScreen } = props;
@@ -49,20 +50,22 @@ function NormalPlayer(props) {
     cdWrapperDom.style.animation = "";
   };
 
-  const transform = prefixStyle("transform")
+  const transform = prefixStyle("transform");
 
   const leave = () => {
-      if(!cdWrapperRef.current) return;
-      const cdWrapperDom = cdWrapperRef.current;
-      cdWrapperDom.style.transition = "all 0.4s";
-      const { x, y, scale} = _getPosAndScale();
-      cdWrapperDom.style[transform] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
-  }
+    if (!cdWrapperRef.current) return;
+    const cdWrapperDom = cdWrapperRef.current;
+    cdWrapperDom.style.transition = "all 0.4s";
+    const { x, y, scale } = _getPosAndScale();
+    cdWrapperDom.style[
+      transform
+    ] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+  };
   const afterLeave = () => {
-    if(!cdWrapperRef.current) return;
+    if (!cdWrapperRef.current) return;
     const cdWrapperDom = cdWrapperRef.current;
     cdWrapperDom.style.transition = "";
-    cdWrapperDom.style[transform] = '';
+    cdWrapperDom.style[transform] = "";
     normalPlayerRef.current.style.display = "none";
   };
   const _getPosAndScale = () => {
@@ -120,6 +123,16 @@ function NormalPlayer(props) {
           </CDWrapper>
         </Middle>
         <Bottom className="bottom">
+          <ProgressWrapper>
+            <span className="time time-l">0:02</span>
+            <div className="progress-bar-wrapper">
+              <ProgressBar
+                percent={0.2}
+                // percentChange={onProgressChange}
+              ></ProgressBar>
+            </div>
+            <span  className="time time-r">4:18</span>
+          </ProgressWrapper>
           <Operators>
             <div className="icon i-left">
               <i className="iconfont">&#xe625;</i>

@@ -30,7 +30,7 @@ function Player (props) {
     />
     <NormalPlayer 
       song={currentSong}
-      fullScreen={fullScreen}
+      fullScreen={true}
       toggleFullScreen={toggleFullScreenDispatch}
     />
   </div>

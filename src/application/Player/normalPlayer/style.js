@@ -150,6 +150,30 @@ export const Bottom = styled.div`
   bottom: 50px;
   width: 100%;
 `;
+
+export const ProgressWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 0px auto;
+  padding: 10px 0;
+  .time {
+    line-height: 30px;
+    width: 30px;
+    flex: 0 0 30px;
+    color: ${style["font-color-desc"]};
+    font-size: ${style["font-size-s"]};
+    &.time-l {
+      text-align: left;
+    }
+    &.time-r {
+      text-align: right;
+    }
+  }
+  .progress-bar-wrapper {
+    flex: 1;
+  }
+`;
 export const Operators = styled.div`
   display: flex;
   align-items: center;
