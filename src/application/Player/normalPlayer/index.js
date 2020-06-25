@@ -68,6 +68,7 @@ function NormalPlayer(props) {
     cdWrapperDom.style[transform] = "";
     normalPlayerRef.current.style.display = "none";
   };
+  const onProgressChange = () => {};
   const _getPosAndScale = () => {
     const targetWidth = 40;
     const paddingLeft = 40;
@@ -128,10 +129,10 @@ function NormalPlayer(props) {
             <div className="progress-bar-wrapper">
               <ProgressBar
                 percent={0.2}
-                // percentChange={onProgressChange}
+                percentChange={onProgressChange}
               ></ProgressBar>
             </div>
-            <span  className="time time-r">4:18</span>
+            <span className="time time-r">4:18</span>
           </ProgressWrapper>
           <Operators>
             <div className="icon i-left">
