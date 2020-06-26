@@ -4,7 +4,7 @@ import { playMode } from '../../../api/config'
 
 const defaultState = fromJS({
     fullScreen: false,
-    playing: false,
+    playing: true,
     sequencePlayList: [],
     playList: [],
     mode: playMode.sequence,
