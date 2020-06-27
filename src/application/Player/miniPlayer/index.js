@@ -5,11 +5,10 @@ import { CSSTransition } from "react-transition-group";
 import ProgressCircle from "../../../baseUI/process-circle";
 
 function MiniPlayer(props) {
-  const { song, playing, fullScreen } = props;
+  const { song, playing, fullScreen,percent } = props;
   const { clickPlaying } = props;
   const { toggleFullScreen } = props;
   const miniPlayerRef = useRef();
-  let percent = 0.2;
 
   return (
     <CSSTransition

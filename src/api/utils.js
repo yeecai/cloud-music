@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const getCount = (count) => {
   if (count < 0) return;
   if (count < 10000) {
@@ -77,3 +79,31 @@ export function prefixStyle(style) {
 export const getSongUrl = (id) => {
   return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
 };
+export const formatPlayTime = (interval) => {
+  interval = interval | 0; // get rid of .xxxx
+  const minute = (interval / 60) | 0;
+  const second = (interval % 60).toString().padStart(2, "0");
+  return `${minute}:${second}`;
+};
+
+export const findIndex = (song, list) => {
+  return list.findIndex((item) => {
+    return item.id === song.id;
+  });
+};
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+export function shuffle(arr) {
+  let new_arr = [];
+  arr.forEach((item) => {
+    new_arr.push(item);
+  });
+
+  return arr.map((item, index) => {
+    let tIndex = getRandomInt(0, index);
+    let temp = new_arr[tIndex];
+    new_arr[tIndex] = item;
+    return item = temp;
+  });
+}

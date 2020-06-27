@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import style from "../../assets/global-style";
 import React, { useEffect, useRef, useState } from "react";
-
+import { prefixStyle } from "../../api/utils";
 const ProgressBarWrapper = styled.div`
   height: 30px;
   .bar-inner {
@@ -39,9 +39,23 @@ function ProgressBar(props) {
   const progressBar = useRef();
   const progress = useRef();
   const progressBtn = useRef();
-  const [touch, setTouch] = useState();
-
+  const [touch, setTouch] = useState({});
+  const { percent } = props;
   const { percentChange } = props;
+
+  const transform = prefixStyle("transform");
+
+  useEffect(() => {
+    if (percent >= 0 && percent <= 1 && !touch.initiated) {
+      const barWidth = progressBar.current.clientWidth - progressBtnWidth;
+      const offsetWidth = percent * barWidth;
+      progress.current.style.width = `${offsetWidth}px`;
+      progressBtn.current.style[
+        transform
+      ] = `translate3d(${offsetWidth}px, 0, 0)`;
+    }
+  }, [percent]);
+
   const _changePercent = () => {
     const barWidth = progressBar.current.clientWidth - progressBtnWidth;
     const curPercent = progress.current.clientWidth / barWidth;
@@ -78,7 +92,7 @@ function ProgressBar(props) {
   const progressClick = (e) => {
     const rect = progressBar.current.getBoundingClientRect();
     const barWidth = progressBar.current.clientWidth - progressBtnWidth;
-    const offsetWidth = Math.min(e.pageX - rect.left, barWidth)
+    const offsetWidth = Math.min(e.pageX - rect.left, barWidth);
     // const offsetWidth = e.pageX - rect.left;
     _offset(offsetWidth);
     _changePercent();

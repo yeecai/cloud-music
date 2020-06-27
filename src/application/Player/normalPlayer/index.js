@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { getName } from "../../../api/utils";
 import { CSSTransition } from "react-transition-group";
-import { prefixStyle } from "../../../api/utils";
+import { prefixStyle, formatPlayTime } from "../../../api/utils";
 import ProgressBar from "../../../baseUI/progress-bar/index";
 
 import {
@@ -15,10 +15,21 @@ import {
 } from "./style";
 import animations from "create-keyframe-animation";
 
+import { playMode } from "../../../api/config";
+
 function NormalPlayer(props) {
-  const { song, fullScreen, toggleFullScreen } = props;
+  const {
+    song,
+    fullScreen,
+    toggleFullScreen,
+    playing,
+    currentTime,
+    mode,
+  } = props;
+  const { onProgressChange, handleNext, handlePrev, changeMode } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
+  const { clickPlaying } = props;
 
   const enter = () => {
     normalPlayerRef.current.style.display = "block";
@@ -68,7 +79,7 @@ function NormalPlayer(props) {
     cdWrapperDom.style[transform] = "";
     normalPlayerRef.current.style.display = "none";
   };
-  const onProgressChange = () => {};
+
   const _getPosAndScale = () => {
     const targetWidth = 40;
     const paddingLeft = 40;
@@ -84,6 +95,18 @@ function NormalPlayer(props) {
       scale,
     };
   };
+  const getPlayMode = () => {
+    let content;
+    if (mode === playMode.sequence) {
+      content = "&#xe625;";
+    } else if (mode === playMode.loop) {
+      content = "&#xe653;";
+    } else {
+      content = "&#xe61b;";
+    }
+    return content;
+  };
+
   return (
     <CSSTransition
       in={fullScreen}
@@ -125,7 +148,7 @@ function NormalPlayer(props) {
         </Middle>
         <Bottom className="bottom">
           <ProgressWrapper>
-            <span className="time time-l">0:02</span>
+            <span className="time time-l">{formatPlayTime(currentTime)}</span>
             <div className="progress-bar-wrapper">
               <ProgressBar
                 percent={0.2}
@@ -135,17 +158,32 @@ function NormalPlayer(props) {
             <span className="time time-r">4:18</span>
           </ProgressWrapper>
           <Operators>
-            <div className="icon i-left">
-              <i className="iconfont">&#xe625;</i>
+            <div className="icon i-left" onClick={changeMode}>
+              <i
+                className="iconfont"
+                dangerouslySetInnerHTML={{ __html: getPlayMode() }}
+              >
+                {/* &#xe625; */}
+              </i>
             </div>
             <div className="icon i-left">
-              <i className="iconfont">&#xe6e1;</i>
+              <i className="iconfont" onClick={handlePrev}>
+                &#xe6e1;
+              </i>
             </div>
-            <div className="icon i-center">
-              <i className="iconfont">&#xe723;</i>
+            <div className="icon i-center" onClick={clickPlaying}>
+              <i
+                className="iconfont"
+                onClick={(e) => clickPlaying(e, !playing)}
+                dangerouslySetInnerHTML={{
+                  __html: playing ? "&#xe723;" : "&#xe731;",
+                }}
+              ></i>
             </div>
             <div className="icon i-right">
-              <i className="iconfont">&#xe718;</i>
+              <i className="iconfont" onClick={handleNext}>
+                &#xe718;
+              </i>
             </div>
             <div className="icon i-right">
               <i className="iconfont">&#xe640;</i>
