@@ -3,6 +3,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import MiniPlayer from "./miniPlayer";
 import NormalPlayer from "./normalPlayer";
+import Toast from "./../../baseUI/Toast";
+
 import {
   changePlayingState,
   changeShowPlayList,
@@ -12,12 +14,13 @@ import {
   changePlayMode,
   changeFullScreen,
 } from "./store/actionCreators";
+import { playMode } from '../../api/config';
 
 import { getSongUrl, isEmptyObject, findIndex, shuffle } from "../../api/utils";
 
 function Player(props) {
   const {
-    fullScreen,
+    // fullScreen,
     playing,
     currentIndex,
     currentSong: immutableCurrentSong,
@@ -27,6 +30,10 @@ function Player(props) {
   } = props;
   const [currentTime, setCurrentTIme] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [modeText, setModeText] = useState("");
+
+  const fullScreen = true;
+
   const {
     toggleFullScreenDispatch,
     togglePlayingDispatch,
@@ -42,6 +49,7 @@ function Player(props) {
   const sequencePlayList = immutableSequencePlayList.toJS();
   const [preSong, setPreSong] = useState({});
   const audioRef = useRef();
+  const toastRef = useRef();
 
   useEffect(() => {
     changeCurrentIndexDispatch(0);
@@ -114,21 +122,32 @@ function Player(props) {
     changeCurrentIndexDispatch(index);
   };
 
+  const handleEnd = () => {
+    if (mode === playMode.loop) {
+      handleLoop();
+    } else {
+      handleNext();
+    }
+  };
   const changeMode = () => {
     let newMode = (mode + 1) % 3;
     if (newMode === 0) {
       changePlayListDispatch(sequencePlayList);
       let index = findIndex(currentSong, sequencePlayList);
       changeCurrentIndexDispatch(index);
+      setModeText("sequence");
     } else if (newMode === 1) {
       changePlayListDispatch(sequencePlayList);
+      setModeText("single loop");
     } else if (newMode === 2) {
       let newList = shuffle(sequencePlayList);
       let index = findIndex(currentSong, newList);
       changePlayListDispatch(newList);
       changeCurrentIndexDispatch(index);
+      setModeText("random");
     }
     changeModeDispatch(newMode);
+    toastRef.current.show();
   };
 
   return (
@@ -160,7 +179,12 @@ function Player(props) {
           />
         </>
       )}
-      <audio ref={audioRef} onTimeUpdate={updateTime}></audio>
+      <audio
+        ref={audioRef}
+        onTimeUpdate={updateTime}
+        onEnded={handleEnd}
+      ></audio>
+      <Toast text={modeText} ref={toastRef}></Toast>
     </div>
   );
 }
