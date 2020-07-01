@@ -18,14 +18,11 @@ function Home(props) {
   return (
     <div>
       <Top>
-        <span className="iconfont menu">menu</span>
+      <span className="iconfont menu">&#xe65c;</span>
         {/* deal the fonts later tgt */}
         <span className="title">{t('title')}</span>
-        <span className="iconfont search">   &#xe637;
-           {/* <i className="iconfont">&#xe637;</i> */}
-        </span>
+        <span className="iconfont search">&#xe62b;</span>
       </Top>
-      {/* <Player/> */}
       <Tab>
         <NavLink to="/recommend" activeClassName="selected"><TabItem><span>{t('1')}</span></TabItem></NavLink>
         <NavLink to="/singers" activeClassName="selected"><TabItem><span>{t('2')}</span></TabItem></NavLink>

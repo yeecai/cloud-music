@@ -20,7 +20,7 @@ import { getSongUrl, isEmptyObject, findIndex, shuffle } from "../../api/utils";
 
 function Player(props) {
   const {
-    // fullScreen,
+    fullScreen,
     playing,
     currentIndex,
     currentSong: immutableCurrentSong,
@@ -31,8 +31,6 @@ function Player(props) {
   const [currentTime, setCurrentTIme] = useState(0);
   const [duration, setDuration] = useState(0);
   const [modeText, setModeText] = useState("");
-
-  const fullScreen = true;
 
   const {
     toggleFullScreenDispatch,

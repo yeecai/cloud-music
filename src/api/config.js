@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const baseUrl = 'http://localhost:3000'
+export const baseUrl = 'http://120.78.214.127:3000'
 export const HEADER_HEIGHT = 45;
 
 export const playMode = {
