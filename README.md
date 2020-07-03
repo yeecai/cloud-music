@@ -1,7 +1,7 @@
-This is a mock music player, back-end data ffrom Binaryify's [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi.git)
-Referred sanyuan0704's [react-cloud-music](https://github.com/sanyuan0704/react-cloud-music.git)
+This is a mock music player of music.163.com, api provided by Binaryify's [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi.git)
+development with sanyuan0704's [react-cloud-music](https://github.com/sanyuan0704/react-cloud-music.git), his react-hooks turtorial is also recommended(in Chinese) on juejim.com. 
 
-### Dependecies
+### Dependencies
 1. React hooks
 2. Styled-component
 3. Immutable.js
@@ -9,3 +9,15 @@ Referred sanyuan0704's [react-cloud-music](https://github.com/sanyuan0704/react-
 5. Transition-group
 
 
+### Run
+1. ```npm install```
+2. change baseUrl to where NeteaseCloudMusicApi is running
+3. ```npm start```
+
+### Deployment
+1. ```npm run build``` 
+2. ```npm install``` express, compression and pm2, then ``` node start ./server.js``` at same folder with /build
+3. If path error, try remove all /cloud-music in build/index.html
+
+
+Note: You can change baseUrl to [my server](http://120.78.214.127:3000/), if my server is not running anymore you can ```npm start``` NeteaseCloudMusicApi at localhost or ```pm2 start npm -- start``` when deloying.

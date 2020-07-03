@@ -6,7 +6,6 @@ import { renderRoutes } from "react-router-config";
 import { SongList, List, ListItem, Container } from "./style.js";
 import Scroll from "../../baseUI/scroll/index";
 import Loading from "../../baseUI/loading";
-import Player from "../Player";
 
 function Rank(props) {
   const { rankList: list, loading } = props;
@@ -80,7 +79,7 @@ function Rank(props) {
         <h1 className="global" style={displayStyle}>
           Global Rank
         </h1>
-        <Player />
+        {/* <Player /> */}
         {renderRankList(globalList, true)}
         {loading ? <Loading></Loading> : null}
         {/* TODO: <EnterLoading></EnterLoading> */}

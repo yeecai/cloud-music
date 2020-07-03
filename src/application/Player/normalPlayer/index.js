@@ -26,7 +26,7 @@ function NormalPlayer(props) {
     currentTime,
     mode,
   } = props;
-  const { onProgressChange, handleNext, handlePrev, changeMode } = props;
+  const { onProgressChange, handleNext, handlePrev, changeMode, togglePlayList } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
   const { clickPlaying } = props;
@@ -185,13 +185,13 @@ function NormalPlayer(props) {
                 &#xe718;
               </i>
             </div>
-            <div className="icon i-right">
+            <div className="icon i-right" onClick={() => togglePlayList(true)}>
               <i className="iconfont">&#xe640;</i>
             </div>
           </Operators>
         </Bottom>
-      </NormalPlayerContainer>
-    </CSSTransition>
+      </NormalPlayerContainer >
+    </CSSTransition >
   );
 }
 

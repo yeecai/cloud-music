@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import MiniPlayer from "./miniPlayer";
 import NormalPlayer from "./normalPlayer";
 import Toast from "./../../baseUI/Toast";
+import PlayList from "./playList";
 
 import {
   changePlayingState,
@@ -27,6 +28,7 @@ function Player(props) {
     playList: immutablePlayList,
     mode,
     sequencePlayList: immutableSequencePlayList,
+    showPlayList
   } = props;
   const [currentTime, setCurrentTIme] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -39,7 +41,7 @@ function Player(props) {
     changeCurrentDispatch,
     changeModeDispatch,
     changePlayListDispatch,
-  } = props;
+    togglePlayListDispatch } = props;
 
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
   const playList = immutablePlayList.toJS();
@@ -50,7 +52,7 @@ function Player(props) {
   const toastRef = useRef();
 
   useEffect(() => {
-    changeCurrentIndexDispatch(0);
+    // changeCurrentIndexDispatch(0);
   });
 
   useEffect(() => {
@@ -159,6 +161,7 @@ function Player(props) {
             percent={percent}
             toggleFullScreen={toggleFullScreenDispatch}
             clickPlaying={clickPlaying}
+            togglePlayList={togglePlayListDispatch}
           />
           <NormalPlayer
             song={currentSong}
@@ -174,6 +177,7 @@ function Player(props) {
             handleNext={handleNext}
             mode={mode}
             changeMode={changeMode}
+            togglePlayList={togglePlayListDispatch}
           />
         </>
       )}
@@ -182,6 +186,8 @@ function Player(props) {
         onTimeUpdate={updateTime}
         onEnded={handleEnd}
       ></audio>
+      {/* <PlayList showPlayList={showPlayList} togglePlayList={togglePlayListDispatch} */}
+      {/* // ></PlayList>    */}
       <Toast text={modeText} ref={toastRef}></Toast>
     </div>
   );

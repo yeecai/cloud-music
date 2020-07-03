@@ -18,7 +18,7 @@ function Home(props) {
   return (
     <div>
       <Top>
-      <span className="iconfont menu">&#xe65c;</span>
+        <span className="iconfont menu">&#xe65c;</span>
         {/* deal the fonts later tgt */}
         <span className="title">{t('title')}</span>
         <span className="iconfont search">&#xe62b;</span>
@@ -33,8 +33,8 @@ function Home(props) {
       <button onClick={() => changeLanguage('en')}>en</button> */}
 
       {/* <div>{t('description.part1')}</div>  its not working = =! */}
-
       {renderRoutes(route.routes)}
+      <Player />
     </div>
   )
 }
