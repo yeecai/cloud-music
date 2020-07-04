@@ -69,22 +69,26 @@ const Scroll = forwardRef((props, ref) => {
 
     useEffect(() => {
         if (!bScroll || !onScroll) return;
-        bScroll.on('scroll', (scroll) => {
-            onScroll(scroll);
-            alert('on')
-        })
+        bScroll.on('scroll', onScroll)
         return () => {
-            bScroll.off('scroll')
+            bScroll.off('scroll', onScroll)
         }
     }, [onScroll, bScroll])
 
     useEffect(() => {
         if (!bScroll || !pullUp) return;
-        bScroll.on('scrollEnd', () => {
-            if (bScroll.y <= bScroll.maxScrollY + 100) {
-                pullUp();
+        const handlePullUp = () => {
+            //判断是否滑动到了底部
+            if(bScroll.y <= bScroll.maxScrollY + 100){
+              pullUpDebounce();
             }
-        })
+          }
+        // bScroll.on('scrollEnd', () => {
+        //     if (bScroll.y <= bScroll.maxScrollY + 100) {
+        //         pullUp();
+        //     }
+        // })
+        bScroll.on('scrollEnd', handlePullUp);
         return () => {
             bScroll.off('scrollEnd')
         }

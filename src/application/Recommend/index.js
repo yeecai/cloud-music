@@ -32,7 +32,6 @@ function Recommend(props) {
     <Content>
       <Scroll className="list" 
       onScroll={forceCheck}
-      // onScroll={() => alert("onScroll")}
       >
         <div>
           <Slider bannerList={bannerListJS}></Slider>
