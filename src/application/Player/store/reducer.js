@@ -1,6 +1,7 @@
 import * as actionTypes from "./constants";
 import { fromJS } from "immutable";
 import { playMode } from "../../../api/config";
+import { findIndex } from "../../../api/utils";
 
 const defaultState = fromJS({
   fullScreen: false,
@@ -12,6 +13,23 @@ const defaultState = fromJS({
   currentSong: {},
   showPlayList: false,
 });
+
+const handleDeleteSong = (state, song) => {
+  // deepClone sequenceList and playList to keep reducer pure
+  const playList = JSON.parse(JSON.stringify(state.get('playList').toJS()));
+  const sequencePlayList = JSON.parse(JSON.stringify(state.get('sequencePlayList').toJS()));
+  const delSongPIndex = findIndex(song, playList);
+  let currentIndex = state.get('currentIndex');
+  playList.splice(delSongPIndex, 1);
+  if (delSongPIndex < currentIndex) currentIndex--;
+  const delSongSIndex = findIndex(song, sequencePlayList);
+  sequencePlayList.splice(delSongSIndex, 1)
+  return state.merge({
+    'playList': fromJS(playList),
+    'sequencePlayList': fromJS(sequencePlayList),
+    'currentIndex': fromJS(currentIndex)
+  })
+}
 
 export default (state = defaultState, action) => {
   switch (action.type) {
@@ -31,6 +49,8 @@ export default (state = defaultState, action) => {
       return state.set("currentIndex", action.data);
     case actionTypes.SET_SHOW_PLAYLIST:
       return state.set("showPlayList", action.data);
+    case actionTypes.DELETE_SONG:
+      return handleDeleteSong(state, action.data);
     default:
       return state;
   }

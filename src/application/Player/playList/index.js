@@ -6,18 +6,23 @@ import { prefixStyle, getName } from './../../../api/utils';
 import { changeCurrentIndex, changePlayMode, changePlayList } from "../store/actionCreators";
 import { playMode } from "../../../api/config";
 import Scroll from '../../../baseUI/scroll';
+import { deleteSong } from "../store/actionCreators";
+import Confirm from '../../../baseUI/confirm';
+import { changeSequecePlayList, changeShowPlayList, changeCurrentSong, changePlayingState } from '../store/actionCreators';
 
 function PlayList(props) {
-  const [isShow, setIsShow] = useState(false);
-  const { togglePlayList } = props;
   const { showPlayList,
     mode,
     currentSong: immutableCurrentSong,
     sequencePlayList: immutableSequencePlayList,
     playList: immutablePlayList,
+    currentIndex
   } = props;
+  const { togglePlayList, changeCurrentIndexDispatch, deleteSongDispatch, clearDispatch } = props;
+  const [isShow, setIsShow] = useState(false);
   const listWrapperRef = useRef();
   const playListRef = useRef();
+  const confirmRef = useRef();
 
   const transform = prefixStyle("transform");
   const [modeText, setModeText] = useState("");
@@ -95,8 +100,22 @@ function PlayList(props) {
   }
 
   const handleShowClear = () => {
-
+    confirmRef.current.show();
   }
+  const handleChangeCurrentIndex = (index) => {
+    if (currentIndex === index) return;
+    changeCurrentIndexDispatch(index);
+  }
+
+  const handleDeleteSong = (e, song) => {
+    e.stopPropagation();
+    deleteSongDispatch(song);
+  };
+
+  const handleConfirmClear = () => {
+    clearDispatch();
+  }
+
   return (
     <CSSTransition
       in={showPlayList}
@@ -115,7 +134,7 @@ function PlayList(props) {
         <div className="list_wrapper"
           ref={listWrapperRef}
           onClick={e => e.stopPropagation()}
-          >
+        >
           <ListHeader>
             <h1 className="title">
               {getPlayMode()}
@@ -125,23 +144,30 @@ function PlayList(props) {
           <ScrollWrapper>
             <ListContent>
               <Scroll>
-                {playList.map((item, index) => {    
+                {playList ? playList.map((item, index) => {
                   return (
-                    <li className="item" key={item.id}>
+                    <li className="item" key={item.id} onClick={() => handleChangeCurrentIndex(index)}>
                       {getCurrentIcon(item)}
-                      <span className="text">{item.name} - {getName(item.ar)}</span>
+                      <span className="text">{item.name} -  {item.ar ? getName(item.ar) : "/"}</span>
                       <span className="like">
                         <i className="iconfont">&#xe601;</i>
                       </span>
-                      <span className="delete">
+                      <span className="delete" onClick={(e) => handleDeleteSong(e, item)}>
                         <i className="iconfont">&#xe63d;</i>
                       </span>
                     </li>
                   )
-                })}
+                }) : null}
               </Scroll>
             </ListContent>
           </ScrollWrapper>
+          <Confirm
+            ref={confirmRef}
+            text={"是否删除全部？"}
+            cancelBtnText={"取消"}
+            confirmBtnText={"确定"}
+            handleConfirm={handleConfirmClear}
+          />
         </div>
       </PlayListWrapper>
     </CSSTransition>
@@ -167,6 +193,22 @@ const mapDispatchToProps = (dispatch) => {
     changePlayListDispatch(data) {
       dispatch(changePlayList(data));
     },
+    deleteSongDispatch(data) {
+      dispatch(deleteSong(data));
+    },
+    clearDispatch() {
+      // 1. 清空两个列表
+      dispatch(changePlayList([]));
+      dispatch(changeSequecePlayList([]));
+      // 2. 初始 currentIndex
+      dispatch(changeCurrentIndex(-1));
+      // 3. 关闭 PlayList 的显示
+      dispatch(changeShowPlayList(false));
+      // 4. 将当前歌曲置空
+      dispatch(changeCurrentSong({}));
+      // 5. 重置播放状态
+      dispatch(changePlayingState(false));
+    }
   }
-};
+}
 export default connect(mapStateToProps, mapDispatchToProps)(React.memo(PlayList));

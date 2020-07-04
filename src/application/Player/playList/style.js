@@ -73,7 +73,7 @@ export const ListContent = styled.div`
         .current{
             flex: 0 0 20px;
             width: 20px;
-            font-size: ${style["font-size-l"]};
+            font-size: ${style["font-size-s"]};
             color: ${style["theme-color"]};
         }
         .text{

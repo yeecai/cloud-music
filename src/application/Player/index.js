@@ -186,10 +186,12 @@ function Player(props) {
         onTimeUpdate={updateTime}
         onEnded={handleEnd}
       ></audio>
-      {/* <PlayList showPlayList={showPlayList} togglePlayList={togglePlayListDispatch} */}
-      {/* // ></PlayList>    */}
+      {playList ?
+        < PlayList showPlayList={showPlayList} togglePlayList={togglePlayListDispatch}
+        ></PlayList>
+        : null}
       <Toast text={modeText} ref={toastRef}></Toast>
-    </div>
+    </div >
   );
 }
 
