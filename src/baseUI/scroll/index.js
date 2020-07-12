@@ -129,10 +129,10 @@ const Scroll = forwardRef((props, ref) => {
     },
   }));
 
-  const PullupDisplayStyle = pullUpLoading ? { display: "" } : { display: "" };
+  const PullupDisplayStyle = pullUpLoading ? { display: "" } : { display: "none" };
   const PulldownDisplayStyle = pullDownLoading
     ? { display: "" }
-    : { display: "" };
+    : { display: "none" };
   return (
     <ScrollContainer ref={scrollContaninerRef}>
       {props.children}

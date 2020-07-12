@@ -7,12 +7,12 @@ import { connect } from 'react-redux';
 const SongsList = React.forwardRef((props, refs) => {
   const { savedCount, songs, showSaved } = props;
   const { changePlayListDispatch, changeCurrentIndexDispatch, changeSequecePlayListDispatch } = props;
-
+  const { musicAnimation } = props;
   const selectItem = (e, index) => {
     changePlayListDispatch(songs);
     changeSequecePlayListDispatch(songs);
     changeCurrentIndexDispatch(index);
-    // musicAnimation(e.nativeEvent.clientX, e.nativeEvent.clientY);
+    musicAnimation(e.nativeEvent.clientX, e.nativeEvent.clientY);
   }
 
   let savedBy = (savedCount) => {

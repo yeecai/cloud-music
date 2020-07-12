@@ -1,8 +1,10 @@
-import React, { useState,useCallback } from "react";
+import React, { useState,useCallback, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import { Container, SaveButton, ImgWrapper, BgLayer } from "./style";
 import Header from "../../baseUI/header/index";
 import SongList from "../SongList";
+import MusicNote from "../../baseUI/music-note/index";
+
 
 const artist = {
   picUrl:
@@ -32,7 +34,11 @@ function Singer(props) {
   const handleBack = useCallback(() => {
     setShowStatus(false);
   }, []);
-
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+    console.log(x + y);
+  };
+  const musicNoteRef = useRef ();
   return (
     <CSSTransition
       in={showStatus}
@@ -56,7 +62,9 @@ function Singer(props) {
             <SongList
             songs ={ artist.hotSongs}
             savedShow = {false}
+            musicAnimation={musicAnimation}
             />
+            <MusicNote ref={musicNoteRef} />
       </Container>
     </CSSTransition>
   );

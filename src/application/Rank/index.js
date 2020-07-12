@@ -70,7 +70,7 @@ function Rank(props) {
 
   return (
     <Container songcount={1}>
-      {/* <Scroll> */}
+      <Scroll>
       <div>
         <h1 className="offical" style={displayStyle}>
           Offical Rank
@@ -79,12 +79,11 @@ function Rank(props) {
         <h1 className="global" style={displayStyle}>
           Global Rank
         </h1>
-        {/* <Player /> */}
         {renderRankList(globalList, true)}
         {loading ? <Loading></Loading> : null}
         {/* TODO: <EnterLoading></EnterLoading> */}
       </div>
-      {/* </Scroll> */}
+      </Scroll>
       {renderRoutes(props.route.routes)}
     </Container>
   );

@@ -10,6 +10,7 @@ import { getAlbumList, changeEnterLoading } from "./store/actionCreators";
 import SongList from "../SongList";
 import { HEADER_HEIGHT } from './../../api/config';
 import style from "../../assets/global-style";
+import MusicNote from "../../baseUI/music-note/index";
 
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
@@ -20,6 +21,8 @@ function Album(props) {
   const { currentAlbum: currentAlbumImmutable, enterLoading } = props;
   const { getAlbumDataDispatch } = props;
 
+  const [title, setTitle] = useState("歌单");
+  const musicNoteRef = useRef()
   useEffect(() => {
     getAlbumDataDispatch(id);
   }, [getAlbumDataDispatch, id]);
@@ -29,8 +32,10 @@ function Album(props) {
   }, []);
 
   let currentAlbum = currentAlbumImmutable.toJS();
-  const [title, setTitle] = useState("歌单");
-
+ 
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  }
   const handleScroll = useCallback(
     (pos) => {
       let minScrollY = -HEADER_HEIGHT;
@@ -111,7 +116,9 @@ function Album(props) {
               savedCount={currentAlbum.subscribedCount}
               songs={currentAlbum.tracks}
               showSaved={true}
+              musicAnimation={musicAnimation}
             />
+            <MusicNote ref={musicNoteRef} />
             </div>
           </Scroll>
         ) : null}

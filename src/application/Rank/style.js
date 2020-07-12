@@ -23,11 +23,11 @@ export const List = styled.ul`
     justify-content: space-between;
     flex-wrap: wrap;
     background: ${style["background-color"]};
-    // &::after {
-    //     content: ""
-    //     display: block
-    //     width: 32vw
-    // }
+    &::after{
+        content:"";
+        display:block;
+        width: 32vw;
+      }
 `;
 
 export const ListItem = styled.li`
