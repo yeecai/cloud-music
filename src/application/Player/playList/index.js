@@ -26,7 +26,10 @@ function PlayList(props) {
 
   const transform = prefixStyle("transform");
   const [modeText, setModeText] = useState("");
-
+  const [canTouch, setCanTouch] = useState(true)
+  const [initialed, setInitialed] = useState(0);
+  const [startY, setStartY] = useState(0);
+  const [distance, setDistance] = useState(0);
 
   const currentSong = immutableCurrentSong.toJS();
   const playList = immutablePlayList.toJS();
@@ -95,8 +98,7 @@ function PlayList(props) {
     const current = item.id === currentSong.id;
     const className = current ? 'icon-play' : '';
     const content = current ? '&#xe6e3;' : '';
-    return (<i className={`current iconfont ${className}`} dangerouslySetInnerHTML={{ __html: content }}></i>
-    )
+    return (<i className={`current iconfont ${className}`} dangerouslySetInnerHTML={{ __html: content }}></i>)
   }
 
   const handleShowClear = () => {
@@ -114,6 +116,39 @@ function PlayList(props) {
 
   const handleConfirmClear = () => {
     clearDispatch();
+  }
+
+  const handleTouchStart = (e) => {
+    if(!canTouch || initialed) return
+    listWrapperRef.current.style['transition'] = ""
+    setStartY(e.nativeEvent.touches[0].pageY);
+    setInitialed(true)
+  }
+
+  const handleTouchMove = (e) => {
+    if(!canTouch || !initialed) return
+    let distance = e.nativeEvent.touches[0].pageY - startY;
+    if(distance < 0) return;
+    setDistance(distance)
+    listWrapperRef.current.style.transform = `translate3d(0, ${distance})`
+  }
+
+  const handleTouchEnd = (e) => {
+    if(!canTouch || !initialed) return
+    if(distance >= 150) {
+      togglePlayList(false)
+    } else {
+      listWrapperRef.current.style['transition'] = 'all 0.3s';
+      listWrapperRef.current.style[transform] = `translate3d(0p, 0px, 0px)`
+    }
+
+  }
+
+  const listContentRef = useRef()
+
+  const handleScroll = (pos) => {
+    let state = pos.y === 0
+    setCanTouch(state)
   }
 
   return (
@@ -134,6 +169,9 @@ function PlayList(props) {
         <div className="list_wrapper"
           ref={listWrapperRef}
           onClick={e => e.stopPropagation()}
+          onTouchEnd={handleTouchEnd}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
         >
           <ListHeader>
             <h1 className="title">
@@ -143,7 +181,11 @@ function PlayList(props) {
           </ListHeader>
           <ScrollWrapper>
             <ListContent>
-              <Scroll>
+              <Scroll
+                ref={listContentRef}
+                onScroll={pos => handleScroll(pos)}
+                bounceTop={false}
+              >
                 {playList ? playList.map((item, index) => {
                   return (
                     <li className="item" key={item.id} onClick={() => handleChangeCurrentIndex(index)}>
