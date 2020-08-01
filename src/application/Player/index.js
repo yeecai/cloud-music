@@ -18,6 +18,7 @@ import {
 import { playMode } from '../../api/config';
 
 import { getSongUrl, isEmptyObject, findIndex, shuffle } from "../../api/utils";
+import { getLyricRequest } from '../../api/request'
 
 function Player(props) {
   const {
@@ -33,6 +34,7 @@ function Player(props) {
   const [currentTime, setCurrentTIme] = useState(0);
   const [duration, setDuration] = useState(0);
   const [modeText, setModeText] = useState("");
+  const currentLyric = useRef();
 
   const {
     toggleFullScreenDispatch,
@@ -64,6 +66,7 @@ function Player(props) {
     )
       return;
     let current = playList[currentIndex];
+    getLyric(current.id);
     changeCurrentDispatch(current);
     setPreSong(current);
     audioRef.current.src = getSongUrl(current.id);
@@ -78,6 +81,23 @@ function Player(props) {
   useEffect(() => {
     playing ? audioRef.current.play() : audioRef.current.pause();
   }, [playing]);
+
+  const getLyric = id => {
+    let lyric = ''
+    getLyricRequest(id)
+      .then(data => {
+        console.log(data)
+        lyric = data.lrc.lyric;
+        if (!lyric) {
+          currentLyric.current = null;
+          return;
+        }
+      })
+      .catch(() => {
+        // songReady.current = true;
+        audioRef.current.play();
+      });
+  }
   const clickPlaying = (e, state) => {
     e.stopPropagation();
     togglePlayingDispatch(state);
