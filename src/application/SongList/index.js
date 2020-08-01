@@ -46,7 +46,7 @@ const SongsList = React.forwardRef((props, refs) => {
   return (
     <SongList ref={refs}>
       <div className="songlist_top">
-        <div className="play_all">
+        <div className="play_all" onClick={(e) => selectItem(e, 0)}>
           <i className="iconfont">&#xe6e3;</i>
           Play all<span>({songs.length} in total)</span>
         </div>

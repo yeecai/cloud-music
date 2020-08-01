@@ -30,7 +30,7 @@ function RecommendList(props) {
                                         <img src={item.picUrl + "?param=300x300"} width="100%" height="100%" alt="music" />
                                     </LazyLoad>
                                     <div className="play_count">
-                                        <i className="iconfont play">.</i>
+                                        <i className="iconfont play"></i>
                                         <span className="count">{getCount(item.playCount)}</span>
                                     </div>
                                 </div>
