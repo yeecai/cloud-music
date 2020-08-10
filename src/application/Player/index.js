@@ -5,6 +5,7 @@ import MiniPlayer from "./miniPlayer";
 import NormalPlayer from "./normalPlayer";
 import Toast from "./../../baseUI/Toast";
 import PlayList from "./playList";
+import Lyric from "./../../api/lyric-parser";
 
 import {
   changePlayingState,
@@ -15,10 +16,10 @@ import {
   changePlayMode,
   changeFullScreen,
 } from "./store/actionCreators";
-import { playMode } from '../../api/config';
+import { playMode } from "../../api/config";
 
 import { getSongUrl, isEmptyObject, findIndex, shuffle } from "../../api/utils";
-import { getLyricRequest } from '../../api/request'
+import { getLyricRequest } from "../../api/request";
 
 function Player(props) {
   const {
@@ -29,7 +30,7 @@ function Player(props) {
     playList: immutablePlayList,
     mode,
     sequencePlayList: immutableSequencePlayList,
-    showPlayList
+    showPlayList,
   } = props;
   const [currentTime, setCurrentTIme] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -43,7 +44,8 @@ function Player(props) {
     changeCurrentDispatch,
     changeModeDispatch,
     changePlayListDispatch,
-    togglePlayListDispatch } = props;
+    togglePlayListDispatch,
+  } = props;
 
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
   const playList = immutablePlayList.toJS();
@@ -52,6 +54,8 @@ function Player(props) {
   const [preSong, setPreSong] = useState({});
   const audioRef = useRef();
   const toastRef = useRef();
+  const [currentPlayingLyric, setPlayingLyric] = useState("");
+  const currentLineNum = useRef(0);
 
   useEffect(() => {
     // changeCurrentIndexDispatch(0);
@@ -82,25 +86,44 @@ function Player(props) {
     playing ? audioRef.current.play() : audioRef.current.pause();
   }, [playing]);
 
-  const getLyric = id => {
-    let lyric = ''
+  // useEffect(() => {
+  //   if (!lyricScrollRef.current) return;
+  //   let bScroll = lyricScrollRef.current.getBScroll();
+  // });
+  const handleLyric = ({ lineNum, text }) => {
+    if (!currentLyric.current) return;
+    currentLineNum.current = lineNum;
+    setPlayingLyric(text);
+  };
+
+  const getLyric = (id) => {
+    let lyric = "";
+    if (currentLyric.current) {
+      currentLyric.current.stop();
+    }
     getLyricRequest(id)
-      .then(data => {
-        console.log(data)
+      .then((data) => {
         lyric = data.lrc.lyric;
         if (!lyric) {
           currentLyric.current = null;
           return;
         }
+        currentLyric.current = new Lyric(lyric, handleLyric);
+        currentLyric.current.play();
+        currentLineNum.current = 0;
+        currentLyric.current.seek(0);
       })
       .catch(() => {
         // songReady.current = true;
         audioRef.current.play();
       });
-  }
+  };
   const clickPlaying = (e, state) => {
     e.stopPropagation();
     togglePlayingDispatch(state);
+    if (currentLyric.current) {
+      currentLyric.current.togglePlay(currentTime * 1000);
+    }
   };
   const onProgressChange = (curPercent) => {
     const newTime = curPercent * duration;
@@ -108,6 +131,9 @@ function Player(props) {
     audioRef.current.currentTime = newTime;
     if (!playing) {
       togglePlayingDispatch(true);
+    }
+    if (currentLyric.current) {
+      currentLyric.current.seek(newTime * 1000);
     }
   };
   const updateTime = (e) => {
@@ -198,6 +224,9 @@ function Player(props) {
             mode={mode}
             changeMode={changeMode}
             togglePlayList={togglePlayListDispatch}
+            currentLyric={currentLyric.current}
+            currentPlayingLyric={currentPlayingLyric}
+            currentLineNum={currentLineNum.current}
           />
         </>
       )}
@@ -206,12 +235,14 @@ function Player(props) {
         onTimeUpdate={updateTime}
         onEnded={handleEnd}
       ></audio>
-      {playList ?
-        < PlayList showPlayList={showPlayList} togglePlayList={togglePlayListDispatch}
+      {playList ? (
+        <PlayList
+          showPlayList={showPlayList}
+          togglePlayList={togglePlayListDispatch}
         ></PlayList>
-        : null}
+      ) : null}
       <Toast text={modeText} ref={toastRef}></Toast>
-    </div >
+    </div>
   );
 }
 

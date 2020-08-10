@@ -3,6 +3,7 @@ import { getName } from "../../../api/utils";
 import { CSSTransition } from "react-transition-group";
 import { prefixStyle, formatPlayTime } from "../../../api/utils";
 import ProgressBar from "../../../baseUI/progress-bar/index";
+import Scroll from "../../../baseUI/scroll";
 
 import {
   NormalPlayerContainer,
@@ -12,6 +13,8 @@ import {
   Operators,
   CDWrapper,
   ProgressWrapper,
+  LyricWrapper,
+  LyricContainer
 } from "./style";
 import animations from "create-keyframe-animation";
 
@@ -25,10 +28,24 @@ function NormalPlayer(props) {
     playing,
     currentTime,
     mode,
+    currentLineNum,
+    currentPlayingLyric,
+    currentLyric,
   } = props;
-  const { onProgressChange, handleNext, handlePrev, changeMode, togglePlayList } = props;
+  const {
+    onProgressChange,
+    handleNext,
+    handlePrev,
+    changeMode,
+    togglePlayList,
+  } = props;
+
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
+  const currentState = useRef("");
+  const lyricScrollRef = useRef();
+  const lyricLineRefs = useRef([]);
+
   const { clickPlaying } = props;
 
   const enter = () => {
@@ -107,6 +124,13 @@ function NormalPlayer(props) {
     return content;
   };
 
+  const toggleCurrentState = () => {
+    if (currentState.current !== "lyric") {
+      currentState.current = "lyric";
+    } else {
+      currentState.current = "";
+    }
+  };
   return (
     <CSSTransition
       in={fullScreen}
@@ -135,16 +159,51 @@ function NormalPlayer(props) {
           <h1 className="title">{song.name}</h1>
           <h1 className="subtitle">{getName(song.ar)}</h1>
         </Top>
-        <Middle ref={cdWrapperRef}>
-          <CDWrapper>
-            <div className="cd">
-              <img
-                className="image play"
-                src={song.al.picUrl + "?param=400x400"}
-                alt=""
-              />
-            </div>
-          </CDWrapper>
+        <Middle ref={cdWrapperRef} onClick={toggleCurrentState}>
+          <CSSTransition
+            timeout={400}
+            classNames="fade"
+            in={currentState.current !== "lyric"}
+          >
+            <CDWrapper
+              style={{
+                visibility:
+                  currentState.current !== "lyric" ? "visible" : "hidden",
+              }}
+            >
+              <div className="cd">
+                <img
+                  className="image play"
+                  src={song.al.picUrl + "?param=400x400"}
+                  alt=""
+                />
+              </div>
+              <p className="playing_lyric">{currentPlayingLyric}</p>
+            </CDWrapper>
+          </CSSTransition>
+          <CSSTransition
+            timeout={400}
+            classNames="fade"
+            in={currentState.current === "lyric"}
+          >
+             <LyricContainer>
+               <Scroll ref={lyricScrollRef}>
+                 <LyricWrapper>
+                   {
+                     currentLyric ? currentLyric.lines.map ((item, index) => {
+                       lyricLineRefs.current[index] = React.createRef();
+                       return(
+                         <p>
+                           {item.text}
+                         </p>
+                       )
+                     })
+                     : <p>纯音乐，请欣赏</p>
+                   }
+                 </LyricWrapper>
+               </Scroll>
+             </LyricContainer>
+          </CSSTransition>
         </Middle>
         <Bottom className="bottom">
           <ProgressWrapper>
@@ -190,8 +249,8 @@ function NormalPlayer(props) {
             </div>
           </Operators>
         </Bottom>
-      </NormalPlayerContainer >
-    </CSSTransition >
+      </NormalPlayerContainer>
+    </CSSTransition>
   );
 }
 
