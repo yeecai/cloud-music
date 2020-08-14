@@ -9,7 +9,8 @@ import { Data } from './application/Singers/data'
 
 import routes from './routes'
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
+  HashRouter as Router,
 } from 'react-router-dom'
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
         <GlobalStyle></GlobalStyle>
         <IconStyle></IconStyle>
         <Data>
-        {renderRoutes(routes)}
+          {renderRoutes(routes)}
         </Data>
       </Router>
     </Provider>

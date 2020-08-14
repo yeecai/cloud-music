@@ -1,11 +1,12 @@
 {
-  "title": "云映月",
+  "title": "网抑云映月",
   "list_itle":"这里就是列表啦",
   "description": {
     "part1": "网一, edit <1>src/App.js</1> and save to reload.",
-    "part2": "云映月"
+    "part2": "网抑云映月"
   },
   "1": "歌手",
   "2": "推荐",
-  "3": "排行榜"
+  "3": "排行榜",
+  "Comming soon...":"用户中心正在开发中，敬请期待:)"
 }
