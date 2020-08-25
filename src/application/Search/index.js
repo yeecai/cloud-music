@@ -4,7 +4,6 @@ import { Container } from './style';
 import SearchBox from './../../baseUI/search-box/index';
 
 function Search(props) {
-    // 控制动画
     const [show, setShow] = useState(false);
     const [query, setQuery] = useState('');
 
@@ -29,10 +28,6 @@ function Search(props) {
             onExited={() => props.history.goBack()}
         >
             <Container>
-                {/* <div onClick={() => setShow(false)}>
-                    <i className="iconfont back">
-                        &#xe655;</i>
-                </div> */}
                 <div className="search_box_wrapper">
                     <SearchBox back={searchBack} newQuery={query} handleQuery={handleQuery}></SearchBox>
                 </div>
