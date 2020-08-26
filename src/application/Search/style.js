@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import style from '../../assets/global-style';
+import styled from "styled-components";
+import style from "../../assets/global-style";
 
 export const Container = styled.div`
   position: fixed;
@@ -12,18 +12,24 @@ export const Container = styled.div`
   overflow: hidden;
   background: #f2f3f4;
   transform-origin: right bottom;
-  &.fly-enter, &.fly-appear {
+  &.fly-enter,
+  &.fly-appear {
     transform: translate3d (100%, 0, 0);
   }
-  &.fly-enter-active, &.fly-appear-active {
-    transition: all .3s;
+  &.fly-enter-active,
+  &.fly-appear-active {
+    transition: all 0.3s;
     transform: translate3d(0, 0, 0);
   }
   &.fly-exit {
     transform: translate3d(0, 0, 0);
   }
   &.fly-exit-active {
-    transition: all .3s;
+    transition: all 0.3s;
     transform: translate3d(100%, 0, 0);
   }
-`
+`;
+
+export const ShortcutWrapper = styled.div``;
+
+export const HotKey = styled.div``;
