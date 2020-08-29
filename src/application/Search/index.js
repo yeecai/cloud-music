@@ -11,7 +11,8 @@ import { Container, ShortcutWrapper, HotKey } from "./style";
 import Scroll from "../../baseUI/scroll";
 import Loading from "./../../baseUI/loading/index";
 import LazyLoad, { forceCheck } from "react-lazyload";
-import { List, ListItem } from "./style";
+import { List, ListItem, SongItem } from "./style";
+import { getName } from '../../api/utils';
 
 function Search(props) {
   const {
@@ -33,22 +34,24 @@ function Search(props) {
   } = props;
 
   const [show, setShow] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("歌单");
 
   const searchBack = useCallback(() => {
     setShow(false);
   }, []);
 
-  const handleQuery = (q) => {
+  const handleQuery = useCallback((q) => {
     setQuery(q);
     //搜索框输入的时候有几率出现无限循环的赋值
-    /// 原因好像是Search 页面的handleQuery每次会因组件的重新渲染生成新的引用，导致SearchBox里的handleQueryDebounce也重新生成引用（debounce没有达到防抖的效果）。在两次输入时间差里handleQueryDebounce如果正好是两个不同的引用，两次输入都执行了父组件的handleQuery，然后newQuery发生改变，SearchBox里会检查到newQuery和query不同，再次触发setQuery，无限循环下去了。
+    /// 原因好像是Search 页面的handleQuery每次会因组件的重新渲染生成新的引用，导致SearchBox里的handleQueryDebounce也重新生成引用（debounce没有达到防抖的效果）。
+    //在两次输入时间差里handleQueryDebounce如果正好是两个不同的引用，两次输入都执行了父组件的handleQuery，
+    //然后newQuery发生改变，SearchBox里会检查到newQuery和query不同，再次触发setQuery，无限循环下去了。
     //把Search 页面的handleQuery用useCallback包起来可以解决
 
     if (!q) return;
     changeEnterLoadingDispatch(true);
     getSuggestListDispatch(q);
-  };
+  }, []);
 
   useEffect(() => {
     setShow(true);
@@ -58,6 +61,8 @@ function Search(props) {
   useEffect(() => {
     setShow(true);
   }, []);
+
+  const selectItem = () => {};
 
   const renderHotKey = () => {
     let list = hotList ? hotList.toJS() : [];
@@ -78,7 +83,25 @@ function Search(props) {
     );
   };
 
-  const renderSingers = () => {};
+  const renderSongs = () => {
+    return (
+      <SongItem style={{ margin: "0 18px" }}>
+        {songsList.map((item) => {
+          return (
+            <li key={item.id} onClick={(e) => selectItem(e, item.id)}>
+              <div className="info">
+                <span>{item.name}</span>
+                <span>
+                  {getName(item.artists)} - {item.album.name}
+                </span>
+              </div>
+            </li>
+          );
+        })}
+      </SongItem>
+    );
+  };
+
   const renderAlbum = () => {
     let albums = suggestList.playlists;
     if (!albums || !albums.length) return;
@@ -87,17 +110,19 @@ function Search(props) {
         <h1 className="title"> 相关歌单 </h1>
         {albums.map((item, index) => {
           return (
-            <ListItem key={item.accountId + "" + index}>
-              <div>
+            <ListItem
+              key={item.accountId + "" + index}
+              onClick={() => props.history.push(`/album/${item.id}`)}
+            >
+              <div className="img_wrapper">
                 <LazyLoad
                   placeholder={
-                    // <img
-                    //   width="100%"
-                    //   height="100%"
-                    //   src={require("./music.png")}
-                    //   alt="music"
-                    // />
-                    "test"
+                    <img
+                      width="100%"
+                      height="100%"
+                      src={require("./music.png")}
+                      alt="music"
+                    />
                   }
                 >
                   <img
@@ -107,15 +132,51 @@ function Search(props) {
                     alt="music"
                   />
                 </LazyLoad>
-                <span className="name"> 歌单: {item.name}</span>
               </div>
+              <span className="name">歌单: {item.name}</span>
             </ListItem>
           );
         })}
       </List>
     );
   };
-  const renderSongs = () => {};
+
+  const renderSingers = () => {
+    let singers = suggestList.artists;
+    if (!singers || !singers.length) return;
+    return (
+      <List>
+        <h1 className="title"> 相关歌手 </h1>
+        {singers.map((item, index) => {
+          return (
+            <ListItem key={item.accountId + "" + index}>
+              <div className="img_wrapper">
+                <LazyLoad
+                  placeholder={
+                    <img
+                      width="100%"
+                      height="100%"
+                      src={require("./singer.png")}
+                      alt="singer"
+                    />
+                  }
+                >
+                  <img
+                    src={item.picUrl}
+                    width="100%"
+                    height="100%"
+                    alt="music"
+                  />
+                </LazyLoad>
+              </div>
+              <span className="name"> 歌手: {item.name}</span>
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  };
+
   return (
     <CSSTransition
       in={show}
@@ -137,7 +198,7 @@ function Search(props) {
           <Scroll>
             <div>
               <HotKey>
-                <h1 className="title"> Hot Keys</h1>
+                <h1 className="title">Hot Keys</h1>
                 {renderHotKey()}
               </HotKey>
             </div>
@@ -146,8 +207,8 @@ function Search(props) {
         <ShortcutWrapper show={query}>
           <Scroll>
             <div>
-              {renderSingers()}
               {renderAlbum()}
+              {renderSingers()}
               {renderSongs()}
             </div>
           </Scroll>

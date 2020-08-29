@@ -56,6 +56,66 @@ export const HotKey = styled.div`
   }
 `;
 
-export const List = styled.div``
-export const ListItem = styled.div``
+export const List = styled.div`
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  overflow: hidden;
+  .title {
+    margin: 10px;
+    color: ${style["font-color-desc"]};
+    font-size: ${style["font-size-s"]};
+  }
+`;
+export const ListItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  margin: 0px 15px;
+  padding: 7px 0 5px 0;
+  align-items: center;
+  border-bottom: 1px solid ${style["border-color"]};
+  .img_wrapper {
+    margin: 0 20px 0 0;
+    img {
+      border-radius: 6px;
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .name {
+    font-size: ${style["font-size-m"]};
+    color: ${style["font-color-desc"]};
+    font-weight: 500;
+  }
+`;
+export const SongItem = styled.ul`
+  // margin: 5px 10px 5px 0px;
+  li {
+    display: flex;
+    height: 60px;
+    align-item: center;
+    margin: 5px 0px 5px 0px;
+    .index {
+      width: 60px;
+    }
+    .info {
+      box-sizing: border-box;
+      flex-direction: column;
+      display: flex;
+      flex: 1;
+      height: 100%;
+      justify-content: space-around;
+      border-bottom: 1px solid ${style["border-color"]};
+      span:first-child {
+        color: ${style["font-color-desc"]};
+        font-size: ${style["font-size-m"]};
 
+      }
+      span: last-child {
+        font-size: ${style["font-size-s"]};
+        color: #bba8a8;
+      }
+    }
+  }
+`;
