@@ -42,11 +42,12 @@ function Search(props) {
 
   const handleQuery = useCallback((q) => {
     setQuery(q);
-    //搜索框输入的时候有几率出现无限循环的赋值
-    /// 原因好像是Search 页面的handleQuery每次会因组件的重新渲染生成新的引用，导致SearchBox里的handleQueryDebounce也重新生成引用（debounce没有达到防抖的效果）。
-    //在两次输入时间差里handleQueryDebounce如果正好是两个不同的引用，两次输入都执行了父组件的handleQuery，
-    //然后newQuery发生改变，SearchBox里会检查到newQuery和query不同，再次触发setQuery，无限循环下去了。
-    //把Search 页面的handleQuery用useCallback包起来可以解决
+    // 搜索框输入的时候有几率出现无限循环的赋值
+    // 原因好像是Search 页面的handleQuery每次会因组件的重新渲染生成新的引用， ???
+    // 导致SearchBox里的handleQueryDebounce也重新生成引用（debounce没有达到防抖的效果）。
+    // 在两次输入时间差里handleQueryDebounce如果正好是两个不同的引用，两次输入都执行了父组件的handleQuery，
+    // 然后newQuery发生改变，SearchBox里会检查到newQuery和query不同，再次触发setQuery，无限循环下去了。
+    // 把Search 页面的handleQuery用useCallback包起来可以解决
 
     if (!q) return;
     changeEnterLoadingDispatch(true);
