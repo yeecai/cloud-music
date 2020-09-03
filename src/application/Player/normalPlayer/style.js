@@ -1,5 +1,7 @@
 import style from "../../../assets/global-style";
 import styled, { keyframes } from "styled-components";
+import disc from "./disc.png";
+import needle from "./needle.png";
 
 const rotate = keyframes`
     0%{
@@ -81,9 +83,9 @@ export const NormalPlayerContainer = styled.div`
 `;
 
 export const Top = styled.div`
-position: relative;
-margin-bottom: 25px;
-.back {
+  position: relative;
+  margin-bottom: 25px;
+  .back {
     position: absolute;
     top: 0;
     left: 6px;
@@ -91,8 +93,8 @@ margin-bottom: 25px;
     color: ${style["font-color-desc"]};
     font-weight: bold;
     transform: rotate(90deg);
-}
-.title{
+  }
+  .title {
     width: 70%;
     margin: 0 auto;
     line-height: 40px;
@@ -100,14 +102,14 @@ margin-bottom: 25px;
     font-size: ${style["font-size-l"]};
     color: ${style["font-color-desc"]};
     // ${style.noWrap()};
-}
-.subtitle{
+  }
+  .subtitle {
     line-height: 20px;
     text-align: center;
     font-size: ${style["font-size-m"]};
     color: ${style["font-color-desc-v2"]};
     // ${style.noWrap()};
-}
+  }
 `;
 export const Middle = styled.div`
   postion: fixed;
@@ -119,29 +121,56 @@ export const Middle = styled.div`
   overflow: hidden;
 `;
 export const CDWrapper = styled.div`
-  width: 80%;
+  width: 100%;
   position: absolute;
-  left: 0;
-  right: 0;
+  top: 0;
+  bottom: 0;
   margin: auto;
-  top: 10%;
-  height: 80vw;
+  display: flex;
+  justify-content: center;
   box-sizing: border-box;
+  .needle {
+    position: absolute;
+    top: -6.67vw;
+    left: 48vw;
+    width: 25vw;
+    height: 40vw;
+    z-index: 100;
+    background-image: url(${needle});
+    ${style.bigFull()};
+    transform-origin: 4.5vw 4.5vw;
+    transition: all 0.3s;
+    tranform: rotate(0);
+    &.pause {
+      transform: rotate(-45deg);
+    }
+  }
   .cd {
-    height: 100%;
-    width: 100%;
+    position: absolute;
+    top: 16%;
+    height: 70vw;
+    width: 70%;
     border-radius: 50%;
+    background-image: url(${disc});
+    border: 4px solid ${style["border-color-v2"]};
+    border-radius: 50%;
+    ${style.bigFull()};
     .image {
       left: 0;
       right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
       position: absolute;
-      height: 100%;
-      width: 100%;
-      //   height: 95%;
-      //   width: 95%;
-      border-sizing: border-box;
+      width: 68%;
+      height: 68%;
       border-radius: 50%;
-      border: 10px solid rgba(255, 255, 255, 0.1);
+
+      animation: ${rotate} 20s linear infinite;
+    }
+
+    .pause {
+      animation-play-state: paused;
     }
   }
 `;
@@ -209,4 +238,4 @@ export const LyricContainer = styled.div`
   top: 0;
   bottom: 0;
 `;
-export const LyricWrapper = styled.div``
+export const LyricWrapper = styled.div``;

@@ -5,6 +5,7 @@ import { prefixStyle, formatPlayTime } from "../../../api/utils";
 import ProgressBar from "../../../baseUI/progress-bar/index";
 import Scroll from "../../../baseUI/scroll";
 
+
 import {
   NormalPlayerContainer,
   Top,
@@ -14,7 +15,7 @@ import {
   CDWrapper,
   ProgressWrapper,
   LyricWrapper,
-  LyricContainer
+  LyricContainer,
 } from "./style";
 import animations from "create-keyframe-animation";
 
@@ -171,9 +172,10 @@ function NormalPlayer(props) {
                   currentState.current !== "lyric" ? "visible" : "hidden",
               }}
             >
+              <div className={`needle ${playing ? "" : "pause"}`}></div>
               <div className="cd">
                 <img
-                  className="image play"
+                  className={`image play ${playing ? "" : "pause"}`}
                   src={song.al.picUrl + "?param=400x400"}
                   alt=""
                 />
@@ -186,23 +188,20 @@ function NormalPlayer(props) {
             classNames="fade"
             in={currentState.current === "lyric"}
           >
-             <LyricContainer>
-               <Scroll ref={lyricScrollRef}>
-                 <LyricWrapper>
-                   {
-                     currentLyric ? currentLyric.lines.map ((item, index) => {
-                       lyricLineRefs.current[index] = React.createRef();
-                       return(
-                         <p>
-                           {item.text}
-                         </p>
-                       )
-                     })
-                     : <p>纯音乐，请欣赏</p>
-                   }
-                 </LyricWrapper>
-               </Scroll>
-             </LyricContainer>
+            <LyricContainer>
+              <Scroll ref={lyricScrollRef}>
+                <LyricWrapper>
+                  {currentLyric ? (
+                    currentLyric.lines.map((item, index) => {
+                      lyricLineRefs.current[index] = React.createRef();
+                      return <p>{item.text}</p>;
+                    })
+                  ) : (
+                    <p>纯音乐，请欣赏</p>
+                  )}
+                </LyricWrapper>
+              </Scroll>
+            </LyricContainer>
           </CSSTransition>
         </Middle>
         <Bottom className="bottom">
