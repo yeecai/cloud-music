@@ -238,4 +238,19 @@ export const LyricContainer = styled.div`
   top: 0;
   bottom: 0;
 `;
-export const LyricWrapper = styled.div``;
+export const LyricWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  p{
+    color: rgba (255, 255, 255, 0.5);
+    &.pure {
+      position: relative;
+      top: 60vh;
+    }
+  }
+ 
+`;

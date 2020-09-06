@@ -5,7 +5,6 @@ import { prefixStyle, formatPlayTime } from "../../../api/utils";
 import ProgressBar from "../../../baseUI/progress-bar/index";
 import Scroll from "../../../baseUI/scroll";
 
-
 import {
   NormalPlayerContainer,
   Top,
@@ -197,7 +196,7 @@ function NormalPlayer(props) {
                       return <p>{item.text}</p>;
                     })
                   ) : (
-                    <p>纯音乐，请欣赏</p>
+                    <p className="pure">纯音乐，请欣赏</p>
                   )}
                 </LyricWrapper>
               </Scroll>
