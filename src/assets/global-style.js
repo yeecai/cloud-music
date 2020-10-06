@@ -40,7 +40,7 @@ export default {
   "background-color": "#f2f3f4",
   "background-color-shadow": "rgba(0,0,0,0.3)",
   "highlight-background-color": "#fff",
-  "border-color-v2": "rgba (228, 228, 228, 0.1)",
+  "border-color-v2": "rgba(228, 228, 228, 0.1)",
   bigFull,
   extendClick,
   noWrap,

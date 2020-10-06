@@ -17,7 +17,6 @@ export const NormalPlayerContainer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 150;
   background: ${style["background-color"]};
   .background {
     position: absolute;
@@ -81,14 +80,17 @@ export const NormalPlayerContainer = styled.div`
     opacity: 0;
   }
 `;
-
 export const Top = styled.div`
   position: relative;
   margin-bottom: 25px;
+  border-bottom: 1px solid ${style["border-color-v2"]};
+  // width: 100%;
+  // height: 8%;
   .back {
     position: absolute;
     top: 0;
     left: 6px;
+    z-index: 50;
     font-size: 24px;
     color: ${style["font-color-desc"]};
     font-weight: bold;
@@ -112,7 +114,7 @@ export const Top = styled.div`
   }
 `;
 export const Middle = styled.div`
-  postion: fixed;
+  position: fixed;
   width: 100%;
   top: 80px;
   bottom: 170px;
@@ -152,7 +154,7 @@ export const CDWrapper = styled.div`
     width: 70%;
     border-radius: 50%;
     background-image: url(${disc});
-    border: 4px solid ${style["border-color-v2"]};
+    //     border: 4px solid ${style["border-color-v2"]};
     border-radius: 50%;
     ${style.bigFull()};
     .image {
@@ -174,12 +176,76 @@ export const CDWrapper = styled.div`
     }
   }
 `;
+// export const Middle = styled.div`
+//   position: fixed;
+//   width: 100%;
+//   top: 80px;
+//   bottom: 170px;
+//   white-space: nowrap;
+//   font-size: 0;
+//   overflow: hidden;
+// `;
+// export const CDWrapper = styled.div`
+//   width: 100%;
+//   margin: auto;
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   margin: auto;
+//   display: flex;
+//   justify-content: center;
+//   box-sizing: border-box;
+//   .needle {
+//     position: absolute;
+//     z-index： 100;
+//     top: -6.67vw;
+//     left: 48vw;
+//     width: 25vw;
+//     height: 40vw;
+//     z-index: 100;
+//     background-image: url(${needle});
+//     ${style.bigFull()};
+//     transform-origin: 4.5vw 4.5vw;
+//     transition: all 0.3s;
+//     tranform: rotate(0);
+//     &.pause {
+//       transform: rotate(-45deg);
+//     }
+//   }
+//   .cd {
+//     position: absolute;
+//     top: 12%;
+//     height: 70vw;
+//     width: 70%;
+//     border-radius: 50%;
+//     background-image: url(${disc});
+//     border: 4px solid ${style["border-color-v2"]};
+//     border-radius: 50%;
+//     ${style.bigFull()};
+//     .image {
+//       left: 0;
+//       right: 0;
+//       top: 0;
+//       bottom: 0;
+//       margin: auto;
+//       position: absolute;
+//       width: 68%;
+//       height: 68%;
+//       border-radius: 50%;
+
+//       animation: ${rotate} 20s linear infinite;
+//     }
+
+//     .pause {
+//       animation-play-state: paused;
+//     }
+//   }
+// `;
 export const Bottom = styled.div`
   position: absolute;
   bottom: 50px;
   width: 100%;
 `;
-
 export const ProgressWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -246,7 +312,7 @@ export const LyricWrapper = styled.div`
   box-sizing: border-box;
   text-align: center;
   p{
-    color: rgba (255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     &.pure {
       position: relative;
       top: 60vh;
@@ -254,3 +320,31 @@ export const LyricWrapper = styled.div`
   }
  
 `;
+export const List = styled.div`
+  width: 70%;
+  margin: auto;  
+  display: flex;
+  align-items: center;
+  // justify-content: space-around;
+  >span:first-of-type {
+    // display: block;
+    flex: 2 3 auto;
+    padding: 5px 0;
+    color: ${style["font-color-desc-v2"]};
+    font-size: ${style["font-size-m"]};
+    // vertical-align: middle;
+  }
+`
+export const ListItem = styled.span`
+  flex: 1 1 auto;
+  border-radius: 10px;
+  padding: 5px 10px;
+  // align-items: center;
+  display: block;
+  color: ${style["font-color-desc-v2"]};
+  &.selected {
+    color: ${style["theme-color"]};
+    border: 1px solid;
+    opacity: 0.8;
+  }
+`

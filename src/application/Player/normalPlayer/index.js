@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import { prefixStyle, formatPlayTime } from "../../../api/utils";
 import ProgressBar from "../../../baseUI/progress-bar/index";
 import Scroll from "../../../baseUI/scroll";
-
+import { list } from "../../../api/config";
 import {
   NormalPlayerContainer,
   Top,
@@ -15,6 +15,8 @@ import {
   ProgressWrapper,
   LyricWrapper,
   LyricContainer,
+  List,
+  ListItem,
 } from "./style";
 import animations from "create-keyframe-animation";
 
@@ -31,6 +33,7 @@ function NormalPlayer(props) {
     currentLineNum,
     currentPlayingLyric,
     currentLyric,
+    speed
   } = props;
   const {
     onProgressChange,
@@ -131,6 +134,25 @@ function NormalPlayer(props) {
       currentState.current = "";
     }
   };
+
+  const Speed = () => {
+    return (
+      <List>
+        <span>Speed</span>
+        {list.map((item) => {
+          return (
+            <ListItem
+              key={item.key}
+              // className={`${speed === item.key ? "selected" : ""}`}
+              className={`${item.key===1.25?"selected" : ""}`}
+            >
+              {item.name}
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  };
   return (
     <CSSTransition
       in={fullScreen}
@@ -204,6 +226,7 @@ function NormalPlayer(props) {
           </CSSTransition>
         </Middle>
         <Bottom className="bottom">
+          <Speed/>
           <ProgressWrapper>
             <span className="time time-l">{formatPlayTime(currentTime)}</span>
             <div className="progress-bar-wrapper">
@@ -253,3 +276,95 @@ function NormalPlayer(props) {
 }
 
 export default React.memo(NormalPlayer);
+// export const Top = styled.div`
+//   position: relative;
+//   margin-bottom: 25px;
+//   .back {
+//     position: absolute;
+//     top: 0;
+//     left: 6px;
+//     font-size: 24px;
+//     color: ${style["font-color-desc"]};
+//     font-weight: bold;
+//     transform: rotate(90deg);
+//   }
+//   .title {
+//     width: 70%;
+//     margin: 0 auto;
+//     line-height: 40px;
+//     text-align: center;
+//     font-size: ${style["font-size-l"]};
+//     color: ${style["font-color-desc"]};
+//     // ${style.noWrap()};
+//   }
+//   .subtitle {
+//     line-height: 20px;
+//     text-align: center;
+//     font-size: ${style["font-size-m"]};
+//     color: ${style["font-color-desc-v2"]};
+//     // ${style.noWrap()};
+//   }
+// `;
+// export const Middle = styled.div`
+//   postion: fixed;
+//   width: 100%;
+//   top: 80px;
+//   bottom: 170px;
+//   white-space: nowrap;
+//   font-size: 0;
+//   overflow: hidden;
+// `;
+// export const CDWrapper = styled.div`
+//   width: 100%;
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   margin: auto;
+//   display: flex;
+//   justify-content: center;
+//   box-sizing: border-box;
+//   .needle {
+//     position: absolute;
+//     top: -6.67vw;
+//     left: 48vw;
+//     width: 25vw;
+//     height: 40vw;
+//     z-index: 100;
+//     background-image: url(${needle});
+//     ${style.bigFull()};
+//     transform-origin: 4.5vw 4.5vw;
+//     transition: all 0.3s;
+//     tranform: rotate(0);
+//     &.pause {
+//       transform: rotate(-45deg);
+//     }
+//   }
+//   .cd {
+//     position: absolute;
+//     top: 16%;
+//     height: 70vw;
+//     width: 70%;
+//     border-radius: 50%;
+//     background-image: url(${disc});
+//     border: 4px solid ${style["border-color-v2"]};
+//     border-radius: 50%;
+//     ${style.bigFull()};
+//     .image {
+//       left: 0;
+//       right: 0;
+//       top: 0;
+//       bottom: 0;
+//       margin: auto;
+//       position: absolute;
+//       width: 68%;
+//       height: 68%;
+//       border-radius: 50%;
+
+//       animation: ${rotate} 20s linear infinite;
+//     }
+
+//     .pause {
+//       animation-play-state: paused;
+//     }
+//   }
+// `;

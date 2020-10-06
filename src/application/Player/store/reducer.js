@@ -4,7 +4,7 @@ import { playMode } from "../../../api/config";
 import { findIndex } from "../../../api/utils";
 
 const defaultState = fromJS({
-  fullScreen: false,
+  fullScreen: true, // DEV: change to false
   playing: true,
   sequencePlayList: [{}],
   playList: [{}],
