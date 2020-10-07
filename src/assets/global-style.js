@@ -21,7 +21,7 @@ const bigFull = () => {
   return `
       background-position: 50%;
       background-size: contain;
-      background-repeat: repeat;
+      background-repeat: no-repeat;
     `;
 };
 
