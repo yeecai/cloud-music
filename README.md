@@ -20,4 +20,4 @@ development with sanyuan0704's [react-cloud-music](https://github.com/sanyuan070
 3. If path error, try remove all /cloud-music in build/index.html
 
 
-Note: You can change baseUrl to [my server](http://120.78.214.127:3000/), if my server is not running anymore you can ```npm start``` NeteaseCloudMusicApi at localhost or ```pm2 start npm -- start``` when deloying.
+Note: You can ```npm start``` NeteaseCloudMusicApi at localhost or ```pm2 start npm -- start``` when deloying.
