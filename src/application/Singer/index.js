@@ -1,12 +1,15 @@
-import React, { useState,useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { connect } from 'react-redux';
+
 import { CSSTransition } from "react-transition-group";
 import { Container, SaveButton, ImgWrapper, BgLayer } from "./style";
 import Header from "../../baseUI/header/index";
 import SongList from "../SongList";
 import MusicNote from "../../baseUI/music-note/index";
+import { getSingerInfo, changeEnterLoading } from "./store/actionCreators";
 
 
-const artist = {
+const _artist = {
   picUrl:
     "https://p2.music.126.net/W__FCWFiyq0JdPtuLJoZVQ==/109951163765026271.jpg",
   name: "薛之谦",
@@ -30,6 +33,17 @@ const artist = {
 };
 
 function Singer(props) {
+  const {
+    artist: immutableArtist,
+    songs: immutableSongs,
+    loading,
+  } = props;
+
+  const { getSingerDataDispatch } = props;
+
+  const artist = immutableArtist.toJS();
+  const songs = immutableSongs.toJS();
+
   const [showStatus, setShowStatus] = useState(true);
   const handleBack = useCallback(() => {
     setShowStatus(false);
@@ -38,7 +52,16 @@ function Singer(props) {
     musicNoteRef.current.startAnimation({ x, y });
     console.log(x + y);
   };
-  const musicNoteRef = useRef ();
+  const musicNoteRef = useRef();
+
+
+  useEffect(() => {
+    const id = props.match.params.id;
+    getSingerDataDispatch(id);
+    // UI
+  }, []);
+
+
   return (
     <CSSTransition
       in={showStatus}
@@ -59,15 +82,29 @@ function Singer(props) {
         <BgLayer></BgLayer>
         {/* <SongListWrapper> */}
         {/* </SongListWrapper> */}
-            <SongList
-            songs ={ artist.hotSongs}
-            savedShow = {false}
-            musicAnimation={musicAnimation}
-            />
-            <MusicNote ref={musicNoteRef} />
+        <SongList
+          songs={songs}
+          savedShow={false}
+          musicAnimation={musicAnimation}
+        />
+        <MusicNote ref={musicNoteRef} />
       </Container>
     </CSSTransition>
   );
 }
 
-export default React.memo(Singer);
+const mapStateToProps = state => ({
+  artist: state.getIn(["singerInfo", "artist"]),
+  songs: state.getIn(["singerInfo", "songsOfArtist"]),
+  loading: state.getIn(["singerInfo", "loading"]),
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getSingerDataDispatch(id) {
+      dispatch(changeEnterLoading(true));
+      dispatch(getSingerInfo(id));
+    }
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Singer));

@@ -25,31 +25,31 @@ function Singers(props) {
   // let [category, setCategory] = useState('')
   // let [alpha, setAlpha] = useState('')
   const { data, dispatch } = useContext(CategoryDataContext)
-  const {category, alpha} = data.toJS()
+  const { category, alpha } = data.toJS()
 
   const { getTopSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
 
   const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
   let handleUpdateCategory = (val) => {
-    dispatch({type: CHANGE_ALPHA,  data:val})
+    dispatch({ type: CHANGE_ALPHA, data: val })
     updateDispatch(val, alpha)
   }
-  
+
   let handleUpdateAlpha = (val) => {
     // setAlpha(val)
-    dispatch({type: CHANGE_CATEGORY,  data:val})
+    dispatch({ type: CHANGE_CATEGORY, data: val })
     updateDispatch(category, val)
   }
 
   const handlePullUp = () => {
     pullUpRefreshDispatch(category, alpha, category === '', pageCount)
   }
-  
+
   const handlePullDown = () => {
     pullDownRefreshDispatch(category, alpha)
   }
-  
-  
+
+
   useEffect(() => {
     if (!singerList.size) getTopSingerDispatch();
   }, [])
@@ -62,9 +62,9 @@ function Singers(props) {
         {
           list.map((item, index) => {
             return (
-              <ListItem key={item.accountId + '' + index} onClick={() => props.history.push (`/singers/${item.id}`)}>
+              <ListItem key={item.accountId + '' + index} onClick={() => props.history.push(`/singers/${item.id}`)}>
                 <div className='img_wrapper'>
-                  <LazyLoad placeholder={<img width="100%" height="100%" src={require('./singer.png')} alt="singer"/>}>
+                  <LazyLoad placeholder={<img width="100%" height="100%" src={require('./singer.png')} alt="singer" />}>
                     <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
                   </LazyLoad>
                 </div>
@@ -101,9 +101,9 @@ function Singers(props) {
         >
           {renderSingerList()}
         </Scroll>
-       { enterLoading?<Loading></Loading>:null}
+        {enterLoading ? <Loading></Loading> : null}
       </ListContainer>
-      { renderRoutes (props.route.routes) }
+      {renderRoutes(props.route.routes)}
     </div>
   )
 }
@@ -129,7 +129,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(changePullUpLoading(true))
       dispatch(changePageCount(count + 1))
       if (top) {
-          dispatch(refreshMoreTopSingerList())
+        dispatch(refreshMoreTopSingerList())
       } else {
         dispatch(refreshMoreSingerList(category, alpha))
       }

@@ -175,6 +175,10 @@ function Player(props) {
       handleNext();
     }
   };
+
+  const handleError = (e) => {
+    console.log(e)
+  }
   const changeMode = () => {
     let newMode = (mode + 1) % 3;
     if (newMode === 0) {
@@ -234,6 +238,7 @@ function Player(props) {
         ref={audioRef}
         onTimeUpdate={updateTime}
         onEnded={handleEnd}
+        onError={handleError}
       ></audio>
       {playList ? (
         <PlayList

@@ -41,3 +41,7 @@ export const getSuggestListRequest = (query) => {
 export const getResultSongsListRequest = (query) => {
   return axiosInstance.get(`/search?keywords=${query}`);
 };
+
+export const getSingerInfoRequest = id => {
+  return axiosInstance.get (`/artists?id=${id}`);
+};
