@@ -18,7 +18,7 @@ inspired by sanyuan0704's [react-cloud-music](https://github.com/sanyuan0704/rea
 1. ```npm run build``` 
 2. ```npm install``` express, compression and pm2, then ``` node start ./server.js``` at same folder with /build
 3. If path error, try remove all /cloud-music in build/index.html
-
+4. to deploy with github-pages, run ```npm run deploy``` [react-gh-pages](https://github.com/gitname/react-gh-pages)
 
 Note: You can ```npm start``` NeteaseCloudMusicApi at localhost or ```pm2 start npm -- start``` when deloying.
 

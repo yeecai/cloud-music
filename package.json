@@ -1,6 +1,7 @@
 {
   "name": "cloud-music",
   "version": "0.1.0",
+  "homepage": "https://yeecai.github.io/cloud-music",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
