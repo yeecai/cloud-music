@@ -5,7 +5,7 @@ inspired by sanyuan0704's [react-cloud-music](https://github.com/sanyuan0704/rea
 1. React hooks
 2. Styled-component
 3. Immutable.js
-4. better-scroll
+4. Better-scroll
 5. Transition-group
 
 
