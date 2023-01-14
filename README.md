@@ -1,5 +1,5 @@
 This is a mock music player of music.163.com, api provided by Binaryify's [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi.git)
-development with sanyuan0704's [react-cloud-music](https://github.com/sanyuan0704/react-cloud-music.git), his react-hooks turtorial is also recommended(in Chinese) on juejin.im.  Bascially all the animation is hand-rolled, if you looking for example about CSS trasition, this project might be helpful.
+inspired by sanyuan0704's [react-cloud-music](https://github.com/sanyuan0704/react-cloud-music.git), his react-hooks turtorial is also recommended(in Chinese) on juejin.im.  Bascially all the animation is hand-rolled, if you looking for example about CSS trasition, this project might be helpful.
 
 ### Dependencies
 1. React hooks
