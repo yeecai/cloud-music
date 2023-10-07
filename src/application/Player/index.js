@@ -177,8 +177,8 @@ function Player(props) {
   };
 
   const handleError = (e) => {
-    console.log(e)
-  }
+    console.log(e);
+  };
   const changeMode = () => {
     let newMode = (mode + 1) % 3;
     if (newMode === 0) {
@@ -239,6 +239,8 @@ function Player(props) {
         onTimeUpdate={updateTime}
         onEnded={handleEnd}
         onError={handleError}
+        autoplay={false}
+        muted={true}
       ></audio>
       {playList ? (
         <PlayList
