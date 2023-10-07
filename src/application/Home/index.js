@@ -17,6 +17,13 @@ function Home(props) {
   };
   return (
     <div>
+      <a onClick={() => {
+        var url = "https://twitter.com/share?url=" + encodeURIComponent(window.location);
+        var text = encodeURIComponent('test');
+        window.open(url + "&text=" + text);
+      }}>
+      click
+    </a>
       <Top>
         <span className="iconfont menu" onClick={() => alert(t('Comming soon...'))}>&#xe65c;</span>
         <span className="title">{t('title')}</span>
