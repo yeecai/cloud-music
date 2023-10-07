@@ -10,6 +10,8 @@
       content="cloud music"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <meta name="twitter:image" content="https://html.sammy-codes.com/images/large-profile.jpg" />
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -28,7 +30,11 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root"></div>   <a onClick={() => {
+        var url = "https://twitter.com/share?url=" + encodeURIComponent(window.location);
+        var text = encodeURIComponent('test');
+        window.open(url + "&text=" + text);
+      }}>{"click"}</a>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
